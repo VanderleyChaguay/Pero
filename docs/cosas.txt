@@ -1,0 +1,97 @@
+birro: bianvo verde rosso,crema
+bistrotto: rosso,crema,bianco
+focacceria , bianco , e crema.
+
+
+
+
+
+
+-- ======================================================
+-- Create Business
+-- ======================================================
+
+INSERT INTO "Business" (id, name, slug, description, address, phone, type)
+VALUES 
+  (gen_random_uuid(), 'Birro', 'bar-birro', 'Craft beer and cocktails only.', 'Main Street 101', '+111111111', 'BIRRO'),
+  (gen_random_uuid(), 'Bistrotto', 'bistrotto', 'Sandwiches, focaccias, and drinks.', 'Food Avenue 202', '+222222222', 'BISTROTTO'),
+  (gen_random_uuid(), 'Foccaceria', 'foccaceria-del-sol', 'Italian focaccia bakery and aperitivo.', 'Sunset Blvd 303', '+333333333', 'FOCCACERIA');
+
+-- ======================================================
+-- Create Menus for each business
+-- ======================================================
+
+-- Birro - one drink menu
+INSERT INTO "Menu" (id, "businessId", name, description, type)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Business" WHERE slug='bar-birro'), 'Beer & Cocktails', 'Our finest craft drinks and cocktails.', 'DRINK');
+
+-- Bistrotto - two menus
+INSERT INTO "Menu" (id, "businessId", name, description, type)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Business" WHERE slug='bistrotto'), 'Main Drinks', 'Cocktails and aperitifs.', 'DRINK'),
+  (gen_random_uuid(), (SELECT id FROM "Business" WHERE slug='bistrotto'), 'Food Selection', 'Our signature sandwiches and focaccias.', 'FOOD');
+
+-- Foccaceria - one menu
+INSERT INTO "Menu" (id, "businessId", name, description, type)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Business" WHERE slug='foccaceria-del-sol'), 'Focaccia Menu', 'Daily fresh baked focaccia and drinks.', 'FOOD');
+
+-- ======================================================
+-- Create Items (3 drinks per drink menu, 3 food items per food menu)
+-- ======================================================
+
+-- Birro Drinks
+INSERT INTO "Item" (id, "menuId", name, description, price, type, season)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Beer & Cocktails' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bar-birro')), 'IPA Craft Beer', 'Hoppy and refreshing.', 6.5, 'DRINK', 'ALL_YEAR'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Beer & Cocktails' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bar-birro')), 'Margarita', 'Classic tequila-based cocktail.', 8.0, 'DRINK', 'SUMMER'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Beer & Cocktails' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bar-birro')), 'Negroni', 'Gin, vermouth, and Campari.', 9.0, 'DRINK', 'ALL_YEAR');
+
+-- Bistrotto Drinks
+INSERT INTO "Item" (id, "menuId", name, description, price, type, season)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Main Drinks' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Aperol Spritz', 'Aperitif with Aperol and prosecco.', 7.5, 'DRINK', 'SUMMER'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Main Drinks' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Whiskey Sour', 'Whiskey, lemon, and sugar.', 8.0, 'DRINK', 'ALL_YEAR'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Main Drinks' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Espresso Martini', 'Vodka, espresso, coffee liqueur.', 9.0, 'DRINK', 'WINTER');
+
+-- Bistrotto Food
+INSERT INTO "Item" (id, "menuId", name, description, price, type)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Food Selection' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Prosciutto Focaccia', 'With Parma ham and mozzarella.', 10.0, 'FOOD'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Food Selection' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Caprese Sandwich', 'Tomato, mozzarella, and basil.', 9.5, 'FOOD'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Food Selection' AND "businessId"=(SELECT id FROM "Business" WHERE slug='bistrotto')), 'Tuna Melt', 'Tuna and cheddar melt sandwich.', 11.0, 'FOOD');
+
+-- Foccaceria Food
+INSERT INTO "Item" (id, "menuId", name, description, price, type)
+VALUES 
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Focaccia Menu' AND "businessId"=(SELECT id FROM "Business" WHERE slug='foccaceria-del-sol')), 'Focaccia Rosemary', 'Olive oil, rosemary, sea salt.', 7.0, 'FOOD'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Focaccia Menu' AND "businessId"=(SELECT id FROM "Business" WHERE slug='foccaceria-del-sol')), 'Focaccia Pesto', 'Homemade pesto and parmesan.', 8.0, 'FOOD'),
+  (gen_random_uuid(), (SELECT id FROM "Menu" WHERE name='Focaccia Menu' AND "businessId"=(SELECT id FROM "Business" WHERE slug='foccaceria-del-sol')), 'Focaccia Tomato', 'Fresh tomato and basil.', 7.5, 'FOOD');
+
+ALTER TABLE "User"
+ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+
+-- Otorgar permisos SELECT sobre todas las tablas al rol anon
+GRANT USAGE ON SCHEMA public TO anon;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;
+
+-- Asegurar que las tablas nuevas también hereden estos permisos
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT ON TABLES TO anon;
+
+-- 1️⃣ Asegura que el rol service_role tiene privilegios sobre el esquema public
+GRANT USAGE ON SCHEMA public TO service_role;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO service_role;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO service_role;
+
+-- 2️⃣ (Recomendado) Desactiva RLS para la tabla User durante las pruebas
+ALTER TABLE "User" DISABLE ROW LEVEL SECURITY;
+
+-- 3️⃣ (opcional pero recomendable) Confirma que el propietario de la tabla es postgres o service_role
+ALTER TABLE "User" OWNER TO postgres;
+
+
+
