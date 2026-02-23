@@ -1,14 +1,135 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
 }
 
+// Database connection URLs are now configured in prisma.config.ts
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+
+}
+
+// Represents each bar — each has its own menus, events and admins
+model Bar {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String
+  history      String   @db.Text
+  phone        String
+  address      String
+  logoUrl      String?
+  coverUrl     String?
+  primaryColor String   @default("#000000")
+  createdAt    DateTime @default(now())
+
+  menus   Menu[]
+  events  Event[]
+  admins  AdminBarAccess[]
+}
+
+model Menu {
+  id       String       @id @default(cuid())
+  barId    String
+  category MenuCategory
+  name     String
+  isActive Boolean      @default(true)
+
+  bar   Bar        @relation(fields: [barId], references: [id])
+  items MenuItem[]
+}
+
+enum MenuCategory {
+  DRINKS
+  FOOD
+  WINE
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  menuId      String
+  name        String
+  description String   @db.Text
+  price       Decimal  @db.Decimal(10, 2)
+  imageUrl    String?
+  isAvailable Boolean  @default(true)
+  order       Int      @default(0)
+  ingredients String[]
+
+  menu      Menu               @relation(fields: [menuId], references: [id])
+  allergens MenuItemAllergen[]
+}
+
+// The 14 legally required allergens in Europe (EU Regulation 1169/2011)
+// Each allergen has an icon for visual display in the menu
+model Allergen {
+  id      String  @id @default(cuid())
+  slug    String  @unique // "gluten", "milk", "eggs" — used to reference the icon file
+  nameIt  String          // Italian name: "Glutine"
+  nameEn  String          // English name: "Gluten"
+  iconUrl String?         // URL to the allergen icon image
+
+  menuItems MenuItemAllergen[]
+}
+
+// Junction table linking menu items to their allergens
+model MenuItemAllergen {
+  menuItemId String
+  allergenId String
+
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id])
+  allergen Allergen @relation(fields: [allergenId], references: [id])
+
+  @@id([menuItemId, allergenId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  barId       String
+  title       String
+  description String   @db.Text
+  date        DateTime
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  bar    Bar          @relation(fields: [barId], references: [id])
+  photos EventPhoto[]
+}
+
+model EventPhoto {
+  id      String  @id @default(cuid())
+  eventId String
+  url     String
+  caption String?
+  order   Int     @default(0)
+
+  event Event @relation(fields: [eventId], references: [id])
+}
+
+// AdminUser mirrors auth.users from Supabase Auth
+// The id here is the same UUID that Supabase generates when a user signs up
+// This way Supabase Auth handles login and we handle permissions
+model AdminUser {
+  id           String   @id
+  email        String   @unique
+  name         String
+  isSuperAdmin Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  invitedBy    String?  // UUID of the admin who granted access
+
+  barAccess AdminBarAccess[]
+}
+
+// Links an admin to a specific bar — one admin can manage multiple bars
+model AdminBarAccess {
+  id        String   @id @default(cuid())
+  userId    String
+  barId     String
+  grantedBy String   // UUID of the admin who approved this access
+  createdAt DateTime @default(now())
+
+  user AdminUser @relation(fields: [userId], references: [id])
+  bar  Bar       @relation(fields: [barId], references: [id])
+
+  @@unique([userId, barId])
 }
