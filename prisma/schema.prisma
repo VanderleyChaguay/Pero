@@ -5,8 +5,7 @@ generator client {
 
 // Database connection URLs are now configured in prisma.config.ts
 datasource db {
-  provider  = "postgresql"
-
+  provider = "postgresql"
 }
 
 // Represents each bar — each has its own menus, events and admins

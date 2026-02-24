@@ -9,5 +9,5 @@ Conexion prisma con supabase, conexion exitosa.
 Primera migracion con prisma.
 Agregue la tabla alergenos en el schema public de supabase
 Creacion del cliente prisma , creacion exitosa.
-
+Creacion del seed de prisma para los allergens , problemas de conexion de seed , cambio el modo en que el seed llama el client.prisma , creacion de seed y problemas resueltos .
 
