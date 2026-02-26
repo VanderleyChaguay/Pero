@@ -10,4 +10,11 @@ Primera migracion con prisma.
 Agregue la tabla alergenos en el schema public de supabase
 Creacion del cliente prisma , creacion exitosa.
 Creacion del seed de prisma para los allergens , problemas de conexion de seed , cambio el modo en que el seed llama el client.prisma , creacion de seed y problemas resueltos .
-
+Eliminacion de lo inutilizable de la plantilla de next.js con supabase.
+creacion de la estructura de la pagina.
+selector de homepage provisional.
+Homepage del primer bar,"Però".
+Agregado el tipaje de las variabiles de datos del database.
+agregado css global.
+agregado css homepage theme "Però"bar.
+agregado pero icon. fallido
