@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-
+// Evaluated once at build time — not inside the component
+const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
 // Però Bar — Homepage
 // Savona, Via Baglietto 44r
@@ -309,7 +310,7 @@ export default function PeròPage() {
             </div>
 
             <span className="footer-copy">
-              {/* © {new Date().getFullYear()} Però · Savona */}
+              © {CURRENT_YEAR} Però · Savona
             </span>
           </div>
         </footer>

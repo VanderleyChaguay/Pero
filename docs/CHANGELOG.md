@@ -17,4 +17,7 @@ Homepage del primer bar,"Però".
 Agregado el tipaje de las variabiles de datos del database.
 agregado css global.
 agregado css homepage theme "Però"bar.
-agregado pero icon. fallido
+agregado pero icon. fallido.
+agregado pero icon con exito.
+Configuracion inicial de homepage "pero".
+Error de la llamada de la fecha en footer solucionado.
