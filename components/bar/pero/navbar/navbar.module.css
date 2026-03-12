@@ -86,11 +86,11 @@
   border-radius:   50%;
 }
 .iconBtn:hover {
-  color:      var(--color-primary);
+  color:      var(--color-text-muted);
   background: rgba(245, 240, 232, 0.08);
 }
 .scrolled .iconBtn       { color: var(--color-text-muted); }
-.scrolled .iconBtn:hover { color: var(--color-primary); }
+.scrolled .iconBtn:hover { color: var(--color-text-muted); }
 
 /* ── Arrow icon rotation animation ── */
 .arrow {

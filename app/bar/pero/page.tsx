@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { PeroNavbar } from "@/components/bar/pero/navbar/navbar"
+import { PeroHero } from "@/components/bar/pero/hero/hero"
 // Evaluated once at build time — not inside the component
 const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
@@ -86,7 +87,7 @@ export default function PeròPage() {
 
         <PeroNavbar />
         {/* ══ HERO ════════════════════════════════════════════ */}
-        <section className="hero" ref={heroRef}>
+        {/* <section className="hero" ref={heroRef}>
           <div className="hero-bg" />
           <div className="hero-grain" />
 
@@ -111,7 +112,8 @@ export default function PeròPage() {
           </div>
 
           <span className="hero-scroll">Scorri</span>
-        </section>
+        </section> */}
+        <PeroHero/>
 
         {/* ══ STORIA ══════════════════════════════════════════ */}
         <section id="storia">

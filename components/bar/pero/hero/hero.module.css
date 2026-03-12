@@ -1,0 +1,214 @@
+/* ══════════════════════════════════════════════
+   hero.module.css — Bar Però
+   Uses CSS variables from styles/themes/pero/style.css
+══════════════════════════════════════════════ */
+
+.hero {
+  position:    relative;
+  height:      105vh;
+  min-height:  680px;
+  display:     flex;
+  align-items: flex-end;
+  overflow:    hidden;
+  background:  var(--color-text);
+}
+
+/* ── Background image ──────────────────────────
+   Replace the Unsplash URL with a real photo of
+   the bar once available: /images/pero/hero.jpg
+─────────────────────────────────────────────── */
+.bg {
+  position:   absolute;
+  inset:      0;
+  background:
+    linear-gradient(
+      155deg,
+      rgba(107, 30, 42, 0.5) 0%,
+      rgba(10,   6,  4, 0.78) 55%
+    ),
+    url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1800&q=80')
+    center / cover no-repeat;
+  transform:  scale(1.05);
+  animation:  heroZoom 14s ease-out forwards;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1);    }
+}
+
+/* ── Grain overlay ── */
+.grain {
+  position:         absolute;
+  inset:            0;
+  opacity:          0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events:   none;
+}
+
+/* ── Content ── */
+.content {
+  position:   relative;
+  z-index:    2;
+  padding:    0 3rem 7rem;
+  max-width:  800px;
+  opacity:    0;
+  transform:  translateY(28px);
+  transition: opacity 1s 0.2s ease-out, transform 1s 0.2s ease-out;
+}
+
+/* Triggered by adding .visible class via useState */
+.visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+/* ── Eyebrow ── */
+.eyebrow {
+  display:        flex;
+  align-items:    center;
+  gap:            1rem;
+  font-size:      var(--text-xs);
+  font-weight:    500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color:          var(--color-primary-light);
+  margin-bottom:  1.4rem;
+}
+.eyebrow::before {
+  content:    '';
+  display:    block;
+  width:      36px;
+  height:     1px;
+  background: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+/* ── Title ── */
+.title {
+  font-family:    var(--font-display);
+  font-size:      var(--text-hero);
+  font-weight:    300;
+  line-height:    var(--leading-tight);
+  color:          var(--color-background);
+  margin:         0 0 1.8rem;
+  letter-spacing: var(--tracking-tight);
+}
+.title em {
+  font-style: italic;
+  color:      rgba(245, 240, 232, 0.45);
+}
+
+/* ── Subtitle ── */
+.subtitle {
+  font-size:      var(--text-base);
+  font-weight:    300;
+  letter-spacing: 0.04em;
+  color:          rgba(245, 240, 232, 0.6);
+  max-width:      400px;
+  line-height:    var(--leading-loose);
+  margin-bottom:  2.8rem;
+}
+
+/* ── CTA buttons ── */
+.actions {
+  display:     flex;
+  align-items: center;
+  gap:         2.5rem;
+  flex-wrap:   wrap;
+}
+
+.ctaPrimary {
+  font-size:       var(--text-xs);
+  font-weight:     500;
+  letter-spacing:  var(--tracking-wider);
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           var(--color-background);
+  background:      var(--color-primary);
+  padding:         0.85rem 2rem;
+  transition:      background 0.3s, transform 0.3s;
+  white-space:     nowrap;
+}
+.ctaPrimary:hover {
+  background: var(--color-primary-dark);
+  transform:  translateY(-1px);
+}
+
+.ctaSecondary {
+  font-size:       var(--text-xs);
+  font-weight:     500;
+  letter-spacing:  var(--tracking-wider);
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           rgba(245, 240, 232, 0.7);
+  display:         flex;
+  align-items:     center;
+  gap:             0.6rem;
+  border-bottom:   1px solid rgba(245, 240, 232, 0.25);
+  padding-bottom:  0.2rem;
+  transition:      color 0.3s, gap 0.3s, border-color 0.3s;
+  white-space:     nowrap;
+}
+.ctaSecondary:hover {
+  color:        rgba(245, 240, 232, 1);
+  gap:          1rem;
+  border-color: rgba(245, 240, 232, 0.6);
+}
+
+/* ── Scroll indicator ── */
+.scrollIndicator {
+  position:       absolute;
+  right:          3rem;
+  bottom:         3rem;
+  z-index:        2;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0.7rem;
+  font-size:      0.58rem;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color:          rgba(245, 240, 232, 0.35);
+  writing-mode:   vertical-rl;
+}
+.scrollIndicator::after {
+  content:    '';
+  display:    block;
+  width:      1px;
+  height:     48px;
+  background: rgba(245, 240, 232, 0.25);
+  animation:  scrollPulse 2.5s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50%      { opacity: 0.9; transform: scaleY(1);   }
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+
+/* Reduce animation intensity on devices that prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .bg      { animation: none; transform: scale(1); }
+  .content { transition: none; opacity: 1; transform: none; }
+  .scrollIndicator::after { animation: none; }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 0 1.5rem 5rem;
+  }
+
+  .scrollIndicator {
+    right:  1.5rem;
+    bottom: 2rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items:    flex-start;
+    gap:            1.2rem;
+  }
+}
