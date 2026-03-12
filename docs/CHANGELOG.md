@@ -21,3 +21,4 @@ agregado pero icon. fallido.
 agregado pero icon con exito.
 Configuracion inicial de homepage "pero".
 Error de la llamada de la fecha en footer solucionado.
+Navbar Separada en components , ultimas modificas navbar logo , navbar configuracion terminada.

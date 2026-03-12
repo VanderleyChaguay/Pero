@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { PeroNavbar } from "@/components/bar/pero/navbar/navbar"
 // Evaluated once at build time — not inside the component
 const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
@@ -12,12 +13,6 @@ const CURRENT_YEAR = new Date().getFullYear()
 // Sections: Navbar, Hero, About, Menu Preview, Events, Contact, Footer
 // ─────────────────────────────────────────────────────────────
 
-const NAV_LINKS = [
-  { label: "Storia",   href: "#storia"   },
-  { label: "Menù",     href: "#menu"     },
-  { label: "Eventi",   href: "#eventi"   },
-  { label: "Contatti", href: "#contatti" },
-]
 
 const MENU_PREVIEW = [
   {
@@ -88,29 +83,8 @@ export default function PeròPage() {
       <div className="pero-page">
         
         {/* ══ NAVBAR ══════════════════════════════════════════ */}
-        <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-          <Link href="/bar/pero" className="logo-link">
-            <Image
-              src="/images/pero/PeroWithoutBackGround.png"
-              alt="Però"
-              width={90}
-              height={36}
-              className="navbar-logo"
-              priority
-            />
-          </Link>
 
-          <ul className="navbar-links">
-            {NAV_LINKS.map(l => (
-              <li key={l.label}>
-                <a href={l.href}>{l.label}</a>
-              </li>
-            ))}
-          </ul>
-
-          <a href="#contatti" className="navbar-cta">Prenota</a>
-        </nav>
-
+        <PeroNavbar />
         {/* ══ HERO ════════════════════════════════════════════ */}
         <section className="hero" ref={heroRef}>
           <div className="hero-bg" />
