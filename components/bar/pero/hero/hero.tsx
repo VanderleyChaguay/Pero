@@ -3,12 +3,14 @@
 // Hero component for Bar Però
 // Full-viewport section with background image, entrance animation and scroll indicator
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import styles from "./hero.module.css"
 
 export function PeroHero() {
   const [visible, setVisible] = useState(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+  
 
   // Trigger entrance animation shortly after mount
   useEffect(() => {

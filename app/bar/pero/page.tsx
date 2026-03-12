@@ -62,21 +62,7 @@ const EVENTS = [
 
 export default function PeròPage() {
   const [scrolled,    setScrolled]    = useState(false)
-  const [heroVisible, setHeroVisible] = useState(false)
-  const heroRef = useRef<HTMLDivElement>(null)
 
-  // Navbar background appears after scrolling past hero
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener("scroll", onScroll)
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  // Trigger hero entrance animation after mount
-  useEffect(() => {
-    const t = setTimeout(() => setHeroVisible(true), 100)
-    return () => clearTimeout(t)
-  }, [])
 
   return (
     <>
@@ -87,32 +73,7 @@ export default function PeròPage() {
 
         <PeroNavbar />
         {/* ══ HERO ════════════════════════════════════════════ */}
-        {/* <section className="hero" ref={heroRef}>
-          <div className="hero-bg" />
-          <div className="hero-grain" />
 
-          <div className={`hero-content ${heroVisible ? "visible" : ""}`}>
-            <p className="hero-eyebrow">Wine bar · Savona</p>
-
-            <h1 className="hero-title">
-              Però.<br />
-              <em>Un posto</em><br />
-              diverso.
-            </h1>
-
-            <p className="hero-subtitle">
-              Un bar dove il tempo rallenta, il vino racconta storie
-              e ogni cocktail è una scelta consapevole.
-            </p>
-
-            <div className="hero-actions">
-              <a href="#menu" className="hero-cta-primary">Scopri il menù</a>
-              <a href="#storia" className="hero-cta-secondary">La nostra storia →</a>
-            </div>
-          </div>
-
-          <span className="hero-scroll">Scorri</span>
-        </section> */}
         <PeroHero/>
 
         {/* ══ STORIA ══════════════════════════════════════════ */}
