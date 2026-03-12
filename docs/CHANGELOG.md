@@ -22,4 +22,6 @@ agregado pero icon con exito.
 Configuracion inicial de homepage "pero".
 Error de la llamada de la fecha en footer solucionado.
 Navbar Separada en components , ultimas modificas navbar logo , navbar configuracion terminada.
-Hero SEparado en components.    
+Seccion Hero SEparado en components.   
+Basura en homepage eliminada.
+Seccion storia separada en components. 

@@ -1,10 +1,9 @@
-"use client"
 
-import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { PeroNavbar } from "@/components/bar/pero/navbar/navbar"
 import { PeroHero } from "@/components/bar/pero/hero/hero"
+import { PeroStoria } from "@/components/bar/pero/storia/storia"
 // Evaluated once at build time — not inside the component
 const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
@@ -61,7 +60,6 @@ const EVENTS = [
 ]
 
 export default function PeròPage() {
-  const [scrolled,    setScrolled]    = useState(false)
 
 
   return (
@@ -77,49 +75,7 @@ export default function PeròPage() {
         <PeroHero/>
 
         {/* ══ STORIA ══════════════════════════════════════════ */}
-        <section id="storia">
-          <div className="section">
-            <p className="eyebrow">La nostra storia</p>
-            <h2 className="section-title">
-              Nati per <em>contraddire</em><br />l'ordinario.
-            </h2>
-
-            <div className="storia-grid">
-              <div className="storia-body">
-                <p>
-                  Però nasce da un'idea semplice: creare uno spazio dove la qualità
-                  non è un lusso ma una necessità. Nel cuore di Savona, in Via Baglietto,
-                  abbiamo aperto le porte a chi cercava qualcosa di diverso.
-                </p>
-                <p>
-                  La nostra carta dei vini è costruita con cura, privilegiando produttori
-                  artigianali e territori meno conosciuti. I nostri cocktail nascono da
-                  abbinamenti inaspettati, sempre con ingredienti freschi e di stagione.
-                </p>
-                <p>
-                  Però non è solo un bar — è un punto di incontro, un luogo dove ogni
-                  visita diventa un ricordo. Perché ci sono posti che entrano nella vita
-                  delle persone e non se ne vanno più.
-                </p>
-                <blockquote className="storia-quote">
-                  "Il nome dice tutto — però, c'è sempre qualcosa in più."
-                </blockquote>
-              </div>
-
-              <div className="storia-image-wrap">
-                {/*
-                  Replace this src with a real interior photo of Però.
-                  Path: /images/pero/interior.jpg
-                */}
-                <img
-                  src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80"
-                  alt="Interno del bar Però — Savona"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
+        <PeroStoria/>
         {/* ══ MENU PREVIEW ════════════════════════════════════ */}
         <section id="menu">
           <div className="menu-section-wrap">
