@@ -1,0 +1,168 @@
+/* ══════════════════════════════════════════════
+   menu-preview.module.css — Bar Però
+   Dark background section contrasting with the
+   bone white sections above and below.
+   Uses CSS variables from styles/themes/pero/style.css
+══════════════════════════════════════════════ */
+
+/* ── Section wrapper — dark background ── */
+.wrapper {
+  background: var(--color-text);
+}
+
+.inner {
+  padding:   var(--space-section) 3rem;
+  max-width: 1200px;
+  margin:    0 auto;
+}
+
+/* ── Eyebrow — lighter on dark background ── */
+.eyebrow {
+  display:        flex;
+  align-items:    center;
+  gap:            1rem;
+  font-size:      var(--text-xs);
+  font-weight:    500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color:          var(--color-primary-light);
+  margin-bottom:  1.4rem;
+}
+.eyebrow::before {
+  content:     '';
+  display:     block;
+  width:       28px;
+  height:      1px;
+  background:  var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+/* ── Title — bone white on dark ── */
+.title {
+  font-family:    var(--font-display);
+  font-size:      var(--text-3xl);
+  font-weight:    300;
+  line-height:    1.1;
+  color:          var(--color-background);
+  margin:         0;
+  letter-spacing: var(--tracking-tight);
+}
+.title em {
+  font-style: italic;
+  color:      var(--color-primary-light);
+}
+
+/* ── Three column grid ── */
+.grid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   1px;
+  margin-top:            4rem;
+  background:            rgba(245, 240, 232, 0.06);
+  border:                1px solid rgba(245, 240, 232, 0.06);
+}
+
+/* ── Single column ── */
+.col {
+  padding:    3rem 2.5rem;
+  background: var(--color-text);
+  transition: background 0.35s;
+}
+.col:hover { background: rgba(107, 30, 42, 0.18); }
+
+/* ── Category label ── */
+.category {
+  font-size:      var(--text-xs);
+  font-weight:    500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color:          var(--color-primary);
+  margin-bottom:  2rem;
+}
+
+/* ── Menu items list ── */
+.items {
+  list-style: none;
+  padding:    0;
+  margin:     0;
+}
+
+.items li {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  gap:             1rem;
+  font-family:     var(--font-display);
+  font-size:       var(--text-lg);
+  font-weight:     300;
+  color:           var(--color-background);
+  padding:         0.85rem 0;
+  border-bottom:   1px solid rgba(245, 240, 232, 0.07);
+  transition:      color 0.3s, padding-left 0.3s;
+}
+.items li:last-child  { border-bottom: none; }
+.items li:hover       { color: var(--color-primary-light); padding-left: 0.4rem; }
+
+/* ── Price tag ── */
+.price {
+  font-family:    var(--font-body);
+  font-size:      var(--text-sm);
+  font-weight:    400;
+  letter-spacing: 0.05em;
+  color:          rgba(245, 240, 232, 0.4);
+  white-space:    nowrap;
+  transition:     color 0.3s;
+  flex-shrink:    0;
+}
+.items li:hover .price { color: var(--color-primary); }
+
+/* ── Footer CTA ── */
+.footer {
+  margin-top: 3.5rem;
+  text-align: center;
+}
+
+.btnGhost {
+  display:         inline-block;
+  font-size:       var(--text-xs);
+  font-weight:     500;
+  letter-spacing:  var(--tracking-wider);
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           rgba(245, 240, 232, 0.75);
+  border:          1px solid rgba(245, 240, 232, 0.2);
+  padding:         0.9rem 2.4rem;
+  transition:      all 0.3s;
+}
+.btnGhost:hover {
+  color:        var(--color-background);
+  border-color: var(--color-primary);
+  background:   var(--color-primary);
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Restore individual column borders on single column layout */
+  .col {
+    border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+  }
+  .col:last-child { border-bottom: none; }
+}
+
+@media (max-width: 640px) {
+  .inner {
+    padding-left:  1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .col {
+    padding: 2rem 1.5rem;
+  }
+}

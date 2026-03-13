@@ -25,3 +25,4 @@ Navbar Separada en components , ultimas modificas navbar logo , navbar configura
 Seccion Hero SEparado en components.   
 Basura en homepage eliminada.
 Seccion storia separada en components. 
+seccion Menu_preview de homepage separado en componentes.

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { PeroNavbar } from "@/components/bar/pero/navbar/navbar"
 import { PeroHero } from "@/components/bar/pero/hero/hero"
 import { PeroStoria } from "@/components/bar/pero/storia/storia"
+import { PeroMenuPreview } from "@/components/bar/pero/menuPreview/menuPreview"
 // Evaluated once at build time — not inside the component
 const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
@@ -14,32 +15,6 @@ const CURRENT_YEAR = new Date().getFullYear()
 // ─────────────────────────────────────────────────────────────
 
 
-const MENU_PREVIEW = [
-  {
-    category: "Cocktail",
-    items: [
-      { name: "Negroni Sbagliato",    price: "9€" },
-      { name: "Spritz al Prosecco",   price: "7€" },
-      { name: "Americano Rosso",      price: "8€" },
-    ],
-  },
-  {
-    category: "Vini",
-    items: [
-      { name: "Barolo 2019",                    price: "12€" },
-      { name: "Brunello di Montalcino",         price: "15€" },
-      { name: "Vermentino di Sardegna",         price: "9€"  },
-    ],
-  },
-  {
-    category: "Cucina",
-    items: [
-      { name: "Tagliere di salumi e formaggi", price: "14€" },
-      { name: "Bruschette al pomodoro",        price: "7€"  },
-      { name: "Carpaccio di manzo",            price: "13€" },
-    ],
-  },
-]
 
 const EVENTS = [
   {
@@ -77,39 +52,8 @@ export default function PeròPage() {
         {/* ══ STORIA ══════════════════════════════════════════ */}
         <PeroStoria/>
         {/* ══ MENU PREVIEW ════════════════════════════════════ */}
-        <section id="menu">
-          <div className="menu-section-wrap">
-            <div className="menu-section">
-              <p className="eyebrow">Il nostro menù</p>
-              <h2 className="section-title">
-                Ogni scelta <em>racconta</em><br />qualcosa.
-              </h2>
 
-              <div className="menu-grid">
-                {MENU_PREVIEW.map(col => (
-                  <div key={col.category} className="menu-col">
-                    <p className="menu-col-category">{col.category}</p>
-                    <ul className="menu-col-items">
-                      {col.items.map(item => (
-                        <li key={item.name}>
-                          <span>{item.name}</span>
-                          <span className="price">{item.price}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-
-              <div className="menu-footer">
-                <Link href="/bar/pero/menu" className="btn-ghost-bone">
-                  Vedi il menù completo
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        <PeroMenuPreview/>
         {/* ══ EVENTS ══════════════════════════════════════════ */}
         <section id="eventi">
           <div className="section">
