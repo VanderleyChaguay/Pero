@@ -27,3 +27,5 @@ Basura en homepage eliminada.
 Seccion storia separada en components. 
 seccion Menu_preview de homepage separado en componentes.
 seccion Event separado en componenets.
+seccion footer separado en componentes , meti use cache para la gestion del ano del copiright.
+Agregado el mapa con la direccion real de PeroBar.

@@ -1,0 +1,67 @@
+/* ══════════════════════════════════════════════
+   footer.module.css — Bar Però
+   Dark background footer matching the menu section.
+   Uses CSS variables from styles/themes/pero/style.css
+══════════════════════════════════════════════ */
+
+.footer {
+  background: var(--color-text);
+  padding:    3.5rem 3rem;
+}
+
+.inner {
+  max-width:       1200px;
+  margin:          0 auto;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+
+/* ── Logo — inverted to white on dark background ── */
+.logo {
+  height:  70px;
+  width:   auto;
+  opacity: 0.85;
+  /* Converts the wine-red logo to white */
+  filter:  brightness(0) invert(1);
+}
+
+/* ── Social links ── */
+.social {
+  display: flex;
+  gap:     2rem;
+}
+
+.social a {
+  font-size:       var(--text-xs);
+  font-weight:     500;
+  letter-spacing:  var(--tracking-wider);
+  text-transform:  uppercase;
+  color:           rgba(245, 240, 232, 0.35);
+  text-decoration: none;
+  transition:      color 0.3s;
+}
+.social a:hover { color: var(--color-primary-light); }
+
+/* ── Copyright ── */
+.copy {
+  font-size:      var(--text-xs);
+  color:          rgba(245, 240, 232, 0.2);
+  letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .footer {
+    padding: 3rem 1.5rem;
+  }
+
+  .inner {
+    flex-direction: column;
+    gap:            1.5rem;
+    text-align:     center;
+  }
+}
