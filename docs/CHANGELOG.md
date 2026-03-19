@@ -31,3 +31,6 @@ seccion footer separado en componentes , meti use cache para la gestion del ano 
 Agregado el mapa con la direccion real de PeroBar.
 configuracion del proxy , todas las paginas accesibles menos /admin
 Inicio de la dashboard admin.
+Database Trigger para conectar los usuarios de schema.user con schema.public.AdminBarAcces 
+Actualizacion de Seeders De Prisma para inicializar el primer bar.
+Cambio manual de los usuarios de supabase , usuario super admin creado y conectado correctamente
