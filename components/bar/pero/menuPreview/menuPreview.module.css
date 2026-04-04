@@ -68,7 +68,7 @@
   background: var(--color-text);
   transition: background 0.35s;
 }
-.col:hover { background: rgba(107, 30, 42, 0.18); }
+.col:hover { background-color: var(--color-primary-dark)}
 
 /* ── Category label ── */
 .category {

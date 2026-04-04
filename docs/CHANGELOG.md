@@ -34,3 +34,15 @@ Inicio de la dashboard admin.
 Database Trigger para conectar los usuarios de schema.user con schema.public.AdminBarAcces 
 Actualizacion de Seeders De Prisma para inicializar el primer bar.
 Cambio manual de los usuarios de supabase , usuario super admin creado y conectado correctamente
+Cambie el color del :hover de la seccion menu-preview
+cambie el generator prisma en schema.prisma porque prisma-client-js esta obsoleto 
+agregue connection de next js para pagina dinamica
+Agregue adminAuth para gestionar el acceso al informacion de usuarios ADmin del database desde la dashboard.
+agregue route en lib/route.ts para gestionar las rutas web.
+agregue /theme/admin para poner la configuracion frontend inicial de la aplicacion.
+Corregi la llamada de el cliente prisma en lib/prisma/prisma.ts  de "../generated/prisma/client" a "../generated/prisma" punta a la carpeta entera lo que hace que obtenga las funciones del cliente correctamente.
+Prueba y simulacion de pagina dashboard.
+Error en el llamado de las sesiones de supabase puede ralentar la pagina SOLUCIONAR !!!!!!!!!!!!!!!!!!!! 
+Solucionado el error  creando un AdminShell che crea las llamadas async haciendo que el layout sea una pagina estatica.
+creacion de gestion de MENU en la dashboard , Partes con async call separadas en _components (carpeta ignorada por admin next.js en la carga) agregado un _types.ts para meter los valores que se comparten entre los componentes , agregar eliminar y desactivar menus creado correctamente  , creado tambien la creacion de items por menu eliminacion y desactivacion , precios edicion .
+creacion de gestion de Usuarios en la dashboard , Partes con async call separadas en _components (carpeta ignorada por admin next.js en la carga) agregado un _types.ts para meter los valores que se comparten entre los componentes , agregar eliminar y desactivar Users creado correctamente.
