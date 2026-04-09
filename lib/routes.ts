@@ -17,21 +17,25 @@ export const routes = {
 
   // ── Admin panel ──
   admin: {
-    dashboard: "/admin",
-    users:     "/admin/user",
-    newBar:    "/admin/bares/nuovo",
+    dashboard:    "/admin",
+    users:        "/admin/users",
+    newBar:       "/admin/bars/new",
+    applications: "/admin/users#applications", // anchor to applications section
 
     bar: {
-      menu:     (slug: string) => `/admin/${slug}/menu`,
-      menuItems:(slug: string, menuId: string) => `/admin/${slug}/menu/${menuId}`,
-      events:   (slug: string) => `/admin/${slug}/eventi`,
-      settings: (slug: string) => `/admin/${slug}/configurazione`,
+      root:      (slug: string) => `/admin/${slug}`,
+      menu:      (slug: string) => `/admin/${slug}/menu`,
+      menuItems: (slug: string, menuId: string) => `/admin/${slug}/menu/${menuId}`,
+      events:    (slug: string) => `/admin/${slug}/events`,
+      settings:  (slug: string) => `/admin/${slug}/settings`,
     },
   },
 
   // ── Auth ──
   auth: {
-    login:  "/auth/login",
-    logout: "/auth/logout",
+    login:   "/auth/login",
+    signup:  "/auth/sign-up",
+    logout:  "/auth/logout",
   },
+
 } as const

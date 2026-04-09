@@ -3,12 +3,13 @@
 // app/admin/[barSlug]/menu/_components/MenuRow.tsx
 // Single menu row with status badge and action buttons.
 
-import { useTransition }              from "react"
-import Link                           from "next/link"
-import { toggleMenu, deleteMenu }     from "../actions"
-import { CATEGORY_LABELS }            from "../_types"
-import type { MenuSummary }           from "../_types"
-import styles                         from "./MenuRow.module.css"
+import { useTransition }          from "react"
+import Link                       from "next/link"
+import { toggleMenu, deleteMenu } from "../actions"
+import { CATEGORY_LABELS }        from "../_types"
+import type { MenuSummary }       from "../_types"
+import styles                     from "./MenuRow.module.css"
+import { routes } from "@/lib/routes"
 
 export function MenuRow({
   menu,
@@ -30,44 +31,44 @@ export function MenuRow({
 
   return (
     <div
-      className={styles.row}
+      className={`grid items-center ${styles.row}`}
       style={{ opacity: pending ? 0.5 : 1 }}
     >
       {/* Category badge */}
-      <span className={styles.categoryBadge}>
+      <span className={`uppercase text-center whitespace-nowrap ${styles.categoryBadge}`}>
         {CATEGORY_LABELS[menu.category] ?? menu.category}
       </span>
 
       {/* Name + item count */}
-      <div className={styles.info}>
-        <span className={styles.name}>{menu.name}</span>
+      <div className={`flex flex-col min-w-0 ${styles.info}`}>
+        <span className={`truncate ${styles.name}`}>{menu.name}</span>
         <span className={styles.itemCount}>{menu._count.items} voci</span>
       </div>
 
       {/* Active status */}
-      <span className={menu.isActive ? styles.badgeActive : styles.badgeInactive}>
+      <span className={`whitespace-nowrap ${menu.isActive ? styles.badgeActive : styles.badgeInactive}`}>
         {menu.isActive ? "Attivo" : "Inattivo"}
       </span>
 
       {/* Actions */}
-      <div className={styles.actions}>
+      <div className={`flex flex-wrap ${styles.actions}`}>
         <Link
-          href={`/admin/${barSlug}/menu/${menu.id}`}
-          className={styles.btnOutline}
+          href={routes.admin.bar.menuItems(barSlug, menu.id)}
+          className={`inline-flex items-center no-underline whitespace-nowrap ${styles.btnOutline}`}
         >
           Gestisci voci
         </Link>
         <button
           onClick={handleToggle}
           disabled={pending}
-          className={styles.btnGhost}
+          className={`bg-transparent cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnGhost}`}
         >
           {menu.isActive ? "Disattiva" : "Attiva"}
         </button>
         <button
           onClick={handleDelete}
           disabled={pending}
-          className={styles.btnDanger}
+          className={`bg-transparent cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnDanger}`}
         >
           Elimina
         </button>

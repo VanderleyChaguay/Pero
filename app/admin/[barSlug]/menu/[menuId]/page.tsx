@@ -2,12 +2,13 @@
 // Menu items management page — lists all items in a menu.
 // Allows creating, editing, toggling and deleting items.
 
-import { requireBarAccess }  from "@/lib/admin/adminAuth"
-import { prisma }            from "@/lib/prisma/prisma"
-import { CreateItemForm }    from "./_components/CreateItemForm"
-import { ItemList }          from "./_components/ItemList"
-import Link                  from "next/link"
-import styles                from "./page.module.css"
+import { requireBarAccess } from "@/lib/admin/adminAuth"
+import { prisma }           from "@/lib/prisma/prisma"
+import { CreateItemForm }   from "./_components/CreateItemForm"
+import { ItemList }         from "./_components/ItemList"
+import Link                 from "next/link"
+import styles               from "./page.module.css"
+import { routes } from "@/lib/routes"
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
@@ -64,9 +65,12 @@ export default async function MenuItemsPage({
   // If menu doesn't belong to this bar, show not found
   if (!menu) {
     return (
-      <div className={styles.notFound}>
+      <div className={`flex flex-col ${styles.notFound}`}>
         <p>Menù non trovato.</p>
-        <Link href={`/admin/${barSlug}/menu`} className={styles.backLink}>
+        <Link
+          href={routes.admin.bar.menu(barSlug)}
+          className={`inline-flex items-center no-underline ${styles.backLink}`}
+        >
           ← Torna ai menù
         </Link>
       </div>
@@ -76,25 +80,28 @@ export default async function MenuItemsPage({
   const availableCount = items.filter(i => i.isAvailable).length
 
   return (
-    <div className={styles.page}>
+    <div className={`flex flex-col ${styles.page}`}>
 
       {/* ── Header ── */}
-      <div className={styles.header}>
+      <div className={`flex flex-col ${styles.header}`}>
         <div>
-          <Link href={`/admin/${barSlug}/menu`} className={styles.backLink}>
+          <Link
+            href={routes.admin.bar.menu(barSlug)}
+            className={`inline-flex items-center no-underline ${styles.backLink}`}
+          >
             ← Menù
           </Link>
-          <p className={styles.eyebrow}>{bar.name} · {menu.name}</p>
-          <h1 className={styles.title}>Gestione Voci</h1>
-          <p className={styles.subtitle}>
+          <p className={`m-0 uppercase ${styles.eyebrow}`}>{bar.name} · {menu.name}</p>
+          <h1 className={`m-0 ${styles.title}`}>Gestione Voci</h1>
+          <p className={`m-0 ${styles.subtitle}`}>
             {items.length} voci totali · {availableCount} disponibili
           </p>
         </div>
       </div>
 
       {/* ── Create item form ── */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Nuova voce</h2>
+      <section className={`flex flex-col ${styles.section}`}>
+        <h2 className={`m-0 uppercase ${styles.sectionTitle}`}>Nuova voce</h2>
         <CreateItemForm
           barSlug={barSlug}
           menuId={menuId}
@@ -103,8 +110,8 @@ export default async function MenuItemsPage({
       </section>
 
       {/* ── Items list ── */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Voci nel menù</h2>
+      <section className={`flex flex-col ${styles.section}`}>
+        <h2 className={`m-0 uppercase ${styles.sectionTitle}`}>Voci nel menù</h2>
         <ItemList
           items={serializeItems(items)}
           allergens={allergens}

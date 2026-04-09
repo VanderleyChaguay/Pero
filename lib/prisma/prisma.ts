@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma"
+import { PrismaClient } from "../generated/prisma/client"
 import { PrismaPg } from "@prisma/adapter-pg"
 
 // Prisma 7 requires a driver adapter — PrismaPg connects to PostgreSQL

@@ -5,6 +5,7 @@
 import { requireAdmin } from "@/lib/admin/adminAuth"
 import { AdminSidebar } from "@/app/admin/_components/sidebar"
 import styles from "./layout.module.css"
+import clsx from "clsx"
 
 export default async function AdminShell({
   children,
@@ -24,10 +25,10 @@ export default async function AdminShell({
   }
 
   return (
-    <div className={styles.shell}>
+    <div className="flex relative">
       <AdminSidebar user={sidebarUser} />
-      <div className={styles.main}>
-        <main className={styles.content}>
+      <div className={clsx("flex-1 min-w-0 min-h-screen", styles.main)}>
+        <main className={clsx("w-full", styles.content)}>
           {children}
         </main>
       </div>

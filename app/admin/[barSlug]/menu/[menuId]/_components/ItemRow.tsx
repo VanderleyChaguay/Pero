@@ -3,16 +3,16 @@
 // app/admin/[barSlug]/menu/[menuId]/_components/ItemRow.tsx
 // Single menu item row with view/edit modes.
 
-import { useState, useTransition }  from "react"
+import { useState, useTransition } from "react"
 import {
   updateMenuItem,
   toggleMenuItem,
   deleteMenuItem,
   updateItemAllergens,
 } from "../../actions"
-import { AllergenPicker }           from "./AllergenPicker"
-import type { MenuItem, Allergen }  from "../_types"
-import styles                       from "./ItemRow.module.css"
+import { AllergenPicker }          from "./AllergenPicker"
+import type { MenuItem, Allergen } from "../_types"
+import styles                      from "./ItemRow.module.css"
 
 export function ItemRow({
   item,
@@ -61,14 +61,14 @@ export function ItemRow({
   // ── Edit mode ──
   if (editing) {
     return (
-      <form onSubmit={handleUpdate} className={styles.editForm}>
+      <form onSubmit={handleUpdate} className={`flex flex-col ${styles.editForm}`}>
 
-        <div className={styles.formRow}>
+        <div className={`flex flex-wrap ${styles.formRow}`}>
           <input
             name="name"
             defaultValue={item.name}
             required
-            className={styles.input}
+            className={`flex-1 min-w-[160px] outline-none ${styles.input}`}
           />
           <input
             name="price"
@@ -77,7 +77,7 @@ export function ItemRow({
             min="0"
             defaultValue={item.price}
             required
-            className={styles.inputSmall}
+            className={`w-[120px] shrink-0 outline-none ${styles.inputSmall}`}
           />
         </div>
 
@@ -85,14 +85,14 @@ export function ItemRow({
           name="description"
           defaultValue={item.description}
           rows={2}
-          className={styles.textarea}
+          className={`w-full outline-none resize-y ${styles.textarea}`}
         />
 
         <input
           name="ingredients"
           defaultValue={item.ingredients.join(", ")}
           placeholder="Ingredienti separati da virgola"
-          className={styles.input}
+          className={`flex-1 min-w-[160px] outline-none ${styles.input}`}
         />
 
         <AllergenPicker
@@ -101,18 +101,18 @@ export function ItemRow({
           onToggle={toggleAllergen}
         />
 
-        <div className={styles.editActions}>
+        <div className={`flex ${styles.editActions}`}>
           <button
             type="submit"
             disabled={pending}
-            className={styles.btnSave}
+            className={`border-none cursor-pointer text-white disabled:opacity-60 disabled:cursor-not-allowed ${styles.btnSave}`}
           >
             {pending ? "Salvataggio..." : "Salva"}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
-            className={styles.btnCancel}
+            className={`bg-transparent cursor-pointer ${styles.btnCancel}`}
           >
             Annulla
           </button>
@@ -124,13 +124,13 @@ export function ItemRow({
   // ── View mode ──
   return (
     <div
-      className={styles.row}
+      className={`flex items-start justify-between ${styles.row}`}
       style={{ opacity: pending ? 0.5 : 1 }}
     >
-      <div className={styles.main}>
+      <div className={`flex flex-col flex-1 min-w-0 ${styles.main}`}>
 
         {/* Name + price + status */}
-        <div className={styles.header}>
+        <div className={`flex items-baseline flex-wrap ${styles.header}`}>
           <span className={styles.name}>{item.name}</span>
           <span className={styles.price}>€ {item.price.toFixed(2)}</span>
           <span className={item.isAvailable ? styles.badgeOn : styles.badgeOff}>
@@ -140,19 +140,19 @@ export function ItemRow({
 
         {/* Description */}
         {item.description && (
-          <p className={styles.desc}>{item.description}</p>
+          <p className={`m-0 ${styles.desc}`}>{item.description}</p>
         )}
 
         {/* Ingredients */}
         {item.ingredients.length > 0 && (
-          <p className={styles.ingredients}>
+          <p className={`m-0 ${styles.ingredients}`}>
             {item.ingredients.join(" · ")}
           </p>
         )}
 
         {/* Allergens */}
         {item.allergens.length > 0 && (
-          <div className={styles.allergenTags}>
+          <div className={`flex flex-wrap ${styles.allergenTags}`}>
             {item.allergens.map(a => (
               <span key={a.allergen.id} className={styles.allergenTag}>
                 {a.allergen.nameIt}
@@ -163,25 +163,25 @@ export function ItemRow({
       </div>
 
       {/* Actions */}
-      <div className={styles.actions}>
+      <div className={`flex shrink-0 flex-wrap ${styles.actions}`}>
         <button
           onClick={() => setEditing(true)}
           disabled={pending}
-          className={styles.btnGhost}
+          className={`bg-transparent cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnGhost}`}
         >
           Modifica
         </button>
         <button
           onClick={handleToggleAvailable}
           disabled={pending}
-          className={styles.btnGhost}
+          className={`bg-transparent cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnGhost}`}
         >
           {item.isAvailable ? "Nascondi" : "Mostra"}
         </button>
         <button
           onClick={handleDelete}
           disabled={pending}
-          className={styles.btnDanger}
+          className={`bg-transparent cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnDanger}`}
         >
           Elimina
         </button>

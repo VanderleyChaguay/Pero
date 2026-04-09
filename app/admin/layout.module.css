@@ -1,43 +1,29 @@
 /* ══════════════════════════════════════════════
    layout.module.css — Admin Layout
-   Used by layout.tsx and adminShell.tsx
+   Hybrid approach: Tailwind handles standard utilities,
+   CSS Modules handle custom variables and complex media queries.
 ══════════════════════════════════════════════ */
 
-/* ── Root wrapper (layout.tsx) ── */
+/* ── Root wrapper: only the custom background ── */
 .wrapper {
-  min-height: 100vh;
   background: var(--color-bg-app);
 }
 
-/* ── Shell: sidebar + main side by side (adminShell.tsx) ── */
-.shell {
-  display:  flex;
-  position: relative;
-}
-
-/* ── Main content area (adminShell.tsx) ── */
+/* ── Main content area: custom spacing + sidebar offset ── */
 .main {
-  flex:        1;
-  min-width:   0;
-  min-height:  100vh;
   padding:     var(--space-8) var(--space-12);
   margin-left: var(--sidebar-width);
 }
 
-/* ── Page content container (adminShell.tsx) ── */
+/* ── Page content container: custom max-width ── */
 .content {
-  width:     100%;
   max-width: var(--content-max-width);
 }
 
-/* ── Loading fallback (layout.tsx) ── */
+/* ── Loading fallback: custom colors ── */
 .loadingFallback {
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  min-height:      100vh;
-  color:           var(--color-text-subtle);
-  font-size:       var(--text-base);
+  color:     var(--color-text-subtle);
+  font-size: var(--text-base);
 }
 
 /* ══════════════════════════════════════════════

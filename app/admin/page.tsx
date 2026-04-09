@@ -3,11 +3,12 @@
 // SuperAdmin sees global stats + all bars.
 // BarAdmin sees only their assigned bars.
 
-import { requireAdmin }   from "@/lib/admin/adminAuth"
-import { prisma }         from "@/lib/prisma/prisma"
-import { routes }         from "@/lib/routes"
-import Link               from "next/link"
-import styles             from "./page.module.css"
+import { requireAdmin } from "@/lib/admin/adminAuth"
+import { prisma }       from "@/lib/prisma/prisma"
+import { routes }       from "@/lib/routes"
+import Link             from "next/link"
+import clsx             from "clsx"
+import styles           from "./page.module.css"
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
@@ -62,10 +63,10 @@ export default async function AdminDashboardPage() {
                 "Buonasera"
 
   return (
-    <div className={styles.page}>
+    <div className={clsx("flex flex-col", styles.page)}>
 
       {/* ── Header ── */}
-      <div className={styles.header}>
+      <div className={clsx("flex items-start justify-between flex-wrap", styles.header)}>
         <div>
           <h1 className={styles.title}>
             {greeting}, {adminUser.name.split(" ")[0]}.
@@ -79,11 +80,17 @@ export default async function AdminDashboardPage() {
         </div>
 
         {adminUser.isSuperAdmin && (
-          <div className={styles.headerActions}>
-            <Link href={routes.admin.newBar} className={styles.btnPrimary}>
+          <div className={clsx("flex shrink-0 flex-wrap", styles.headerActions)}>
+            <Link
+              href={routes.admin.newBar}
+              className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.btnPrimary)}
+            >
               + Nuovo locale
             </Link>
-            <Link href={routes.admin.users} className={styles.btnSecondary}>
+            <Link
+              href={routes.admin.users}
+              className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.btnSecondary)}
+            >
               Amministratori
             </Link>
           </div>
@@ -92,7 +99,7 @@ export default async function AdminDashboardPage() {
 
       {/* ── SuperAdmin global stats ── */}
       {stats && (
-        <div className={styles.statsGrid}>
+        <div className={clsx("grid grid-cols-3", styles.statsGrid)}>
           <StatCard label="Locali attivi"  value={stats.barCount} />
           <StatCard label="Amministratori" value={stats.adminCount} />
           <StatCard label="Voci di menù"   value={stats.menuItemCount} />
@@ -100,16 +107,19 @@ export default async function AdminDashboardPage() {
       )}
 
       {/* ── Bars section ── */}
-      <div className={styles.section}>
+      <div className={clsx("flex flex-col", styles.section)}>
         <h2 className={styles.sectionTitle}>
           {adminUser.isSuperAdmin ? "Tutti i locali" : "I tuoi locali"}
         </h2>
 
         {bars.length === 0 ? (
-          <div className={styles.empty}>
+          <div className={clsx("flex flex-col items-start", styles.empty)}>
             <p>Nessun locale trovato.</p>
             {adminUser.isSuperAdmin && (
-              <Link href={routes.admin.newBar} className={styles.btnPrimary}>
+              <Link
+                href={routes.admin.newBar}
+                className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.btnPrimary)}
+              >
                 Crea il primo locale
               </Link>
             )}
@@ -131,7 +141,7 @@ export default async function AdminDashboardPage() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className={styles.statCard}>
+    <div className={clsx("flex flex-col", styles.statCard)}>
       <span className={styles.statValue}>{value}</span>
       <span className={styles.statLabel}>{label}</span>
     </div>
@@ -150,23 +160,38 @@ function BarCard({ bar }: {
   }
 }) {
   return (
-    <div className={styles.barCard}>
+    <div className={clsx("flex flex-col", styles.barCard)}>
 
-      <div className={styles.barCardHeader}>
+      <div className={clsx("flex flex-col", styles.barCardHeader)}>
         <h3 className={styles.barName}>{bar.name}</h3>
         <p className={styles.barAddress}>{bar.address}</p>
       </div>
 
-      <div className={styles.barStats}>
+      <div className={clsx("flex items-center", styles.barStats)}>
         <span className={styles.barStat}>{bar._count.menus} menù</span>
         <span className={styles.barStatDivider}>·</span>
         <span className={styles.barStat}>{bar._count.events} eventi</span>
       </div>
 
-      <div className={styles.barActions}>
-        <Link href={routes.admin.bar.menu(bar.slug)}     className={styles.barAction}>Menù</Link>
-        <Link href={routes.admin.bar.events(bar.slug)}   className={styles.barAction}>Eventi</Link>
-        <Link href={routes.admin.bar.settings(bar.slug)} className={styles.barAction}>Impostazioni</Link>
+      <div className={clsx("flex flex-wrap", styles.barActions)}>
+        <Link
+          href={routes.admin.bar.menu(bar.slug)}
+          className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.barAction)}
+        >
+          Menù
+        </Link>
+        <Link
+          href={routes.admin.bar.events(bar.slug)}
+          className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.barAction)}
+        >
+          Eventi
+        </Link>
+        <Link
+          href={routes.admin.bar.settings(bar.slug)}
+          className={clsx("inline-flex items-center whitespace-nowrap no-underline", styles.barAction)}
+        >
+          Impostazioni
+        </Link>
       </div>
 
     </div>

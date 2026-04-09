@@ -4,11 +4,11 @@
 // Single user row with bar access management and role toggle.
 // Each row has its own useTransition — so only this row shows pending state.
 
-import { useTransition }                              from "react"
+import { useTransition }                    from "react"
 import { grantBarAccess, revokeBarAccess,
-         toggleSuperAdmin }                           from "../actions"
-import type { User, Bar }                             from "../_types"
-import styles                                         from "./UserRow.module.css"
+         toggleSuperAdmin }                 from "../actions"
+import type { User, Bar }                   from "../_types"
+import styles                               from "./UserRow.module.css"
 
 export function UserRow({
   user,
@@ -44,33 +44,38 @@ export function UserRow({
   }
 
   return (
-    <div className={styles.row} style={{ opacity: pending ? 0.5 : 1 }}>
+    <div
+      className={`flex items-start flex-wrap ${styles.row}`}
+      style={{ opacity: pending ? 0.5 : 1 }}
+    >
 
       {/* User info */}
-      <div className={styles.info}>
-        <div className={styles.nameRow}>
+      <div className={`flex flex-col shrink-0 ${styles.info}`}>
+        <div className={`flex items-center flex-wrap ${styles.nameRow}`}>
           <span className={styles.name}>{user.name}</span>
-          {user.isSuperAdmin && <span className={styles.superBadge}>Super Admin</span>}
+          {user.isSuperAdmin && (
+            <span className={`uppercase ${styles.superBadge}`}>Super Admin</span>
+          )}
           {isSelf && <span className={styles.selfBadge}>Tu</span>}
         </div>
         <span className={styles.email}>{user.email}</span>
       </div>
 
       {/* Bar access */}
-      <div className={styles.accessSection}>
-        <p className={styles.accessLabel}>Accesso ai locali</p>
-        <div className={styles.accessTags}>
+      <div className={`flex-1 flex flex-col min-w-0 ${styles.accessSection}`}>
+        <p className={`m-0 uppercase ${styles.accessLabel}`}>Accesso ai locali</p>
+        <div className={`flex flex-wrap ${styles.accessTags}`}>
           {user.barAccess.length === 0 ? (
             <span className={styles.noAccess}>Nessun accesso</span>
           ) : (
             user.barAccess.map(({ bar }) => (
-              <div key={bar.id} className={styles.accessTag}>
+              <div key={bar.id} className={`flex items-center ${styles.accessTag}`}>
                 <span>{bar.name}</span>
                 {!isSelf && (
                   <button
                     onClick={() => handleRevoke(bar.id, bar.name)}
                     disabled={pending}
-                    className={styles.revokeBtn}
+                    className={`flex items-center justify-center bg-transparent border-none cursor-pointer p-0 rounded-full disabled:opacity-50 disabled:cursor-not-allowed ${styles.revokeBtn}`}
                   >
                     ✕
                   </button>
@@ -81,13 +86,13 @@ export function UserRow({
         </div>
 
         {!isSelf && barsWithoutAccess.length > 0 && (
-          <div className={styles.addAccess}>
+          <div className={`flex flex-wrap ${styles.addAccess}`}>
             {barsWithoutAccess.map(bar => (
               <button
                 key={bar.id}
                 onClick={() => handleGrant(bar.id)}
                 disabled={pending}
-                className={styles.addAccessBtn}
+                className={`bg-transparent cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${styles.addAccessBtn}`}
               >
                 + {bar.name}
               </button>
@@ -98,11 +103,11 @@ export function UserRow({
 
       {/* SuperAdmin toggle */}
       {!isSelf && (
-        <div className={styles.actions}>
+        <div className="flex items-start shrink-0">
           <button
             onClick={handleToggleSuperAdmin}
             disabled={pending}
-            className={user.isSuperAdmin ? styles.btnDemote : styles.btnPromote}
+            className={`cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${user.isSuperAdmin ? styles.btnDemote : styles.btnPromote}`}
           >
             {user.isSuperAdmin ? "Rimuovi Super Admin" : "Promuovi"}
           </button>

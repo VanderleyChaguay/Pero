@@ -5,6 +5,8 @@ focacceria , bianco , e crema.
 Ideas futuras : user creado en supabase auth NoAdmin que recibe notificaciones via mail sobre el estado del local bar al que esta suscrito asi sabe en todo momento si esta cerrado abierto de vacaciones eventos y demas via mail, separado con un trigger para que no termine en AdminUser , creacion de otra pagina para el registro de usuarios no admin.
 
 
+quiero que cuando te registres te loguee automaticamente la confirmacion de la mail la dejaremos para un segundo momento y cuando estes logueado y registrado aparte de la pagina que confirma la registracion en esa misma pagina quiero que se agregue un boton normal que me direccione hacia la dashboard este es , cuando se crea un nuevo usuario en la pagina protected puedes elegir el bar .
+
 
 
 -- ======================================================

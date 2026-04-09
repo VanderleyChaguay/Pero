@@ -40,15 +40,15 @@ export function CreateItemForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} className={`flex flex-col ${styles.form}`}>
 
       {/* Row 1: name + price */}
-      <div className={styles.row}>
+      <div className={`flex flex-wrap ${styles.row}`}>
         <input
           name="name"
           placeholder="Nome (es. Negroni Sbagliato)"
           required
-          className={styles.input}
+          className={`flex-1 min-w-[160px] outline-none ${styles.input}`}
         />
         <input
           name="price"
@@ -57,7 +57,7 @@ export function CreateItemForm({
           min="0"
           placeholder="Prezzo (es. 8.50)"
           required
-          className={styles.inputSmall}
+          className={`w-[120px] shrink-0 outline-none ${styles.inputSmall}`}
         />
       </div>
 
@@ -66,14 +66,14 @@ export function CreateItemForm({
         name="description"
         placeholder="Descrizione (facoltativa)"
         rows={2}
-        className={styles.textarea}
+        className={`w-full outline-none resize-y ${styles.textarea}`}
       />
 
       {/* Row 3: ingredients */}
       <input
         name="ingredients"
         placeholder="Ingredienti separati da virgola (es. Vodka, Lime, Zenzero)"
-        className={styles.input}
+        className={`flex-1 min-w-[160px] outline-none ${styles.input}`}
       />
 
       {/* Row 4: allergens */}
@@ -86,7 +86,7 @@ export function CreateItemForm({
       <button
         type="submit"
         disabled={pending}
-        className={styles.btnCreate}
+        className={`self-start border-none cursor-pointer text-white disabled:opacity-60 disabled:cursor-not-allowed ${styles.btnCreate}`}
       >
         {pending ? "Aggiunta..." : "+ Aggiungi voce"}
       </button>

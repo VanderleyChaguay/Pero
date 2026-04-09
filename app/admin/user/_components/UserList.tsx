@@ -3,10 +3,10 @@
 // app/admin/utenti/_components/UserList.tsx
 // Filterable list of admin users.
 
-import { useState }            from "react"
-import { UserRow }             from "./UserRow"
-import type { User, Bar }      from "../_types"
-import styles                  from "./UserList.module.css"
+import { useState }       from "react"
+import { UserRow }        from "./UserRow"
+import type { User, Bar } from "../_types"
+import styles             from "./UserList.module.css"
 
 export function UserList({
   users,
@@ -27,27 +27,32 @@ export function UserList({
       )
 
   return (
-    <div className={styles.section}>
+    <div className={`flex flex-col ${styles.section}`}>
 
       {/* ── Filter bar ── */}
-      <div className={styles.filterWrap}>
-        <span className={styles.searchIcon}>⌕</span>
+      <div className={`flex items-center ${styles.filterWrap}`}>
+        <span className={`shrink-0 leading-none ${styles.searchIcon}`}>⌕</span>
         <input
           type="text"
           placeholder="Filtra per nome o email..."
           value={query}
           onChange={e => setQuery(e.target.value)}
-          className={styles.filterInput}
+          className={`flex-1 border-none bg-transparent outline-none ${styles.filterInput}`}
         />
         {query && (
-          <button onClick={() => setQuery("")} className={styles.clearBtn}>✕</button>
+          <button
+            onClick={() => setQuery("")}
+            className={`bg-transparent border-none cursor-pointer shrink-0 leading-none ${styles.clearBtn}`}
+          >
+            ✕
+          </button>
         )}
       </div>
 
       {filtered.length === 0 ? (
-        <div className={styles.empty}>Nessun utente trovato.</div>
+        <div className={`text-center ${styles.empty}`}>Nessun utente trovato.</div>
       ) : (
-        <div className={styles.list}>
+        <div className={`flex flex-col ${styles.list}`}>
           {filtered.map(user => (
             <UserRow
               key={user.id}

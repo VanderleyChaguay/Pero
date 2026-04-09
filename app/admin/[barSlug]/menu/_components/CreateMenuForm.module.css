@@ -1,9 +1,7 @@
 /* app/admin/[barSlug]/menu/_components/CreateMenuForm.module.css */
 
 .form {
-  display:       flex;
   gap:           var(--space-3);
-  flex-wrap:     wrap;
   padding:       var(--space-6);
   background:    var(--color-bg-card);
   border:        1px solid var(--color-border);
@@ -12,19 +10,20 @@
 }
 
 .input {
-  flex:          1;
-  min-width:     200px;
   padding:       0.6rem 0.9rem;
   border:        1px solid var(--color-border);
   border-radius: var(--radius-sm);
   font-size:     var(--text-sm);
   color:         var(--color-text);
   background:    var(--color-bg-input);
-  outline:       none;
   transition:    border-color var(--transition-fast);
 }
-.input:focus       { border-color: var(--color-primary); }
-.input::placeholder { color: var(--color-text-subtle); }
+.input:focus {
+  border-color: var(--color-primary);
+}
+.input::placeholder {
+  color: var(--color-text-subtle);
+}
 
 .select {
   padding:       0.6rem 0.9rem;
@@ -33,26 +32,23 @@
   font-size:     var(--text-sm);
   color:         var(--color-text);
   background:    var(--color-bg-input);
-  cursor:        pointer;
-  outline:       none;
   transition:    border-color var(--transition-fast);
 }
-.select:focus { border-color: var(--color-primary); }
+.select:focus {
+  border-color: var(--color-primary);
+}
 
 .btnCreate {
   padding:       0.6rem 1.3rem;
   background:    var(--color-primary);
-  color:         white;
-  border:        none;
   border-radius: var(--radius-sm);
   font-size:     var(--text-sm);
   font-weight:   500;
-  cursor:        pointer;
-  white-space:   nowrap;
   transition:    background var(--transition-fast);
 }
-.btnCreate:hover:not(:disabled) { background: var(--color-primary-hover); }
-.btnCreate:disabled              { opacity: 0.6; cursor: not-allowed; }
+.btnCreate:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
 
 @media (max-width: 768px) {
   .form {

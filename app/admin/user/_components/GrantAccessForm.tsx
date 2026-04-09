@@ -4,19 +4,19 @@
 // Search bar with live results dropdown to grant bar access to users.
 
 import { useState, useTransition, useEffect, useRef } from "react"
-import { searchUsers, grantBarAccess }                 from "../actions"
-import type { Bar, SearchResult }                      from "../_types"
-import styles                                          from "./GrantAccessForm.module.css"
+import { searchUsers, grantBarAccess }                from "../actions"
+import type { Bar, SearchResult }                     from "../_types"
+import styles                                         from "./GrantAccessForm.module.css"
 
 export function GrantAccessForm({ bars }: { bars: Bar[] }) {
-  const [query,      setQuery]      = useState("")
-  const [results,    setResults]    = useState<SearchResult[]>([])
-  const [selected,   setSelected]   = useState<SearchResult | null>(null)
-  const [barId,      setBarId]      = useState("")
-  const [showDrop,   setShowDrop]   = useState(false)
-  const [searching,  setSearching]  = useState(false)
+  const [query,      setQuery]        = useState("")
+  const [results,    setResults]      = useState<SearchResult[]>([])
+  const [selected,   setSelected]     = useState<SearchResult | null>(null)
+  const [barId,      setBarId]        = useState("")
+  const [showDrop,   setShowDrop]     = useState(false)
+  const [searching,  setSearching]    = useState(false)
   const [pending,    startTransition] = useTransition()
-  const [feedback,   setFeedback]   = useState<{
+  const [feedback,   setFeedback]     = useState<{
     type: "success" | "error"
     message: string
   } | null>(null)
@@ -96,13 +96,13 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
   const availableBars = bars.filter(b => !alreadyHasAccess.includes(b.id))
 
   return (
-    <div className={styles.form}>
-      <div className={styles.searchRow}>
+    <div className={`flex flex-col ${styles.form}`}>
+      <div className={`flex items-start flex-wrap ${styles.searchRow}`}>
 
         {/* ── Search input with dropdown ── */}
-        <div className={styles.searchWrap} ref={wrapperRef}>
-          <div className={styles.searchInputWrap}>
-            <span className={styles.searchIcon}>
+        <div className={`relative flex-1 ${styles.searchWrap}`} ref={wrapperRef}>
+          <div className={`flex items-center ${styles.searchInputWrap}`}>
+            <span className={`shrink-0 leading-none ${styles.searchIcon}`}>
               {searching ? "⟳" : "⌕"}
             </span>
             <input
@@ -114,13 +114,13 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
                 if (selected) setSelected(null)
               }}
               onFocus={() => results.length > 0 && setShowDrop(true)}
-              className={styles.searchInput}
+              className={`flex-1 border-none bg-transparent outline-none ${styles.searchInput}`}
             />
             {(query || selected) && (
               <button
                 type="button"
                 onClick={handleClear}
-                className={styles.clearBtn}
+                className={`bg-transparent border-none cursor-pointer shrink-0 leading-none ${styles.clearBtn}`}
               >
                 ✕
               </button>
@@ -129,18 +129,18 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
 
           {/* Dropdown results */}
           {showDrop && results.length > 0 && (
-            <div className={styles.dropdown}>
+            <div className={`absolute left-0 right-0 z-50 overflow-hidden ${styles.dropdown}`}>
               {results.map(user => (
                 <button
                   key={user.id}
                   type="button"
                   onClick={() => handleSelect(user)}
-                  className={styles.dropdownItem}
+                  className={`flex flex-col w-full bg-transparent border-none text-left cursor-pointer ${styles.dropdownItem}`}
                 >
-                  <div className={styles.dropdownItemName}>
+                  <div className={`flex items-center ${styles.dropdownItemName}`}>
                     {user.name}
                     {user.isSuperAdmin && (
-                      <span className={styles.dropSuperBadge}>Super Admin</span>
+                      <span className={`uppercase ${styles.dropSuperBadge}`}>Super Admin</span>
                     )}
                   </div>
                   <div className={styles.dropdownItemEmail}>{user.email}</div>
@@ -156,8 +156,8 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
 
           {/* No results */}
           {showDrop && !searching && results.length === 0 && query.length >= 2 && (
-            <div className={styles.dropdown}>
-              <div className={styles.dropdownEmpty}>
+            <div className={`absolute left-0 right-0 z-50 overflow-hidden ${styles.dropdown}`}>
+              <div className={`text-center ${styles.dropdownEmpty}`}>
                 Nessun utente trovato per &ldquo;{query}&rdquo;
               </div>
             </div>
@@ -169,7 +169,7 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
           <select
             value={barId}
             onChange={e => setBarId(e.target.value)}
-            className={styles.select}
+            className={`outline-none cursor-pointer ${styles.select}`}
           >
             <option value="">Seleziona locale</option>
             {availableBars.length === 0 ? (
@@ -188,7 +188,7 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
             type="button"
             onClick={handleGrant}
             disabled={pending}
-            className={styles.btnGrant}
+            className={`border-none cursor-pointer whitespace-nowrap text-white disabled:opacity-50 disabled:cursor-not-allowed ${styles.btnGrant}`}
           >
             {pending ? "..." : "Concedi accesso"}
           </button>
@@ -197,8 +197,8 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
 
       {/* Selected user preview */}
       {selected && (
-        <div className={styles.selectedUser}>
-          <span className={styles.selectedLabel}>Utente selezionato:</span>
+        <div className={`flex items-center flex-wrap ${styles.selectedUser}`}>
+          <span className={`uppercase ${styles.selectedLabel}`}>Utente selezionato:</span>
           <span className={styles.selectedName}>{selected.name}</span>
           <span className={styles.selectedEmail}>{selected.email}</span>
         </div>
@@ -206,7 +206,7 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
 
       {/* Feedback */}
       {feedback && (
-        <p className={feedback.type === "success" ? styles.msgSuccess : styles.msgError}>
+        <p className={`m-0 ${feedback.type === "success" ? styles.msgSuccess : styles.msgError}`}>
           {feedback.message}
         </p>
       )}

@@ -4,16 +4,16 @@
 // Responsive admin sidebar — fixed on desktop, drawer on mobile.
 // Receives serialized user data from the Server Component layout.
 
-import { useState }      from "react"
-import Link              from "next/link"
-import { usePathname }   from "next/navigation"
-import { useRouter }     from "next/navigation"
-import { createClient }  from "@/lib/supabase/client"
-import { routes }        from "@/lib/routes"
-import clsx              from "clsx"
-import styles            from "./sidebar.module.css"
+import { useState }     from "react"
+import Link             from "next/link"
+import { usePathname }  from "next/navigation"
+import { useRouter }    from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
+import { routes }       from "@/lib/routes"
+import clsx             from "clsx"
+import styles           from "./sidebar.module.css"
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 type Bar = {
   slug: string
@@ -29,7 +29,7 @@ type Props = {
   }
 }
 
-// ── Nav item helper ──────────────────────────────────────────────────────────
+// ── Nav link helper ───────────────────────────────────────────────────────────
 
 function NavLink({
   href,
@@ -49,15 +49,19 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
-      className={clsx(styles.navLink, { [styles.active]: active })}
+      className={clsx(
+        "flex items-center relative no-underline",
+        styles.navLink,
+        { [styles.active]: active }
+      )}
     >
-      <span className={styles.navIcon}>{icon}</span>
+      <span className={`shrink-0 text-center ${styles.navIcon}`}>{icon}</span>
       <span>{label}</span>
     </Link>
   )
 }
 
-// ── Main sidebar component ───────────────────────────────────────────────────
+// ── Main sidebar ──────────────────────────────────────────────────────────────
 
 export function AdminSidebar({ user }: Props) {
   const [open, setOpen] = useState(false)
@@ -72,52 +76,59 @@ export function AdminSidebar({ user }: Props) {
   }
 
   const sidebarContent = (
-    <div className={styles.sidebarInner}>
+    <div className={`flex flex-col h-full ${styles.sidebarInner}`}>
 
       {/* ── Brand ── */}
-      <div className={styles.brand}>
+      <div className={`flex flex-col ${styles.brand}`}>
         <span className={styles.brandName}>Birro</span>
-        <span className={styles.brandLabel}>Admin Panel</span>
+        <span className={`uppercase ${styles.brandLabel}`}>Admin Panel</span>
       </div>
 
       {/* ── Navigation ── */}
-      <nav className={styles.nav}>
+      <nav className={`flex-1 flex flex-col ${styles.nav}`}>
 
         {/* Dashboard — visible to all admins */}
-        <NavLink href={routes.admin.dashboard} label="Dashboard" icon="⊞" onClick={close} />
-
-        {/* Amministratori — visible to all admins */}
-        <NavLink href={routes.admin.users} label="Amministratori" icon="◎" onClick={close} />
+        <NavLink
+          href={routes.admin.dashboard}
+          label="Dashboard"
+          icon="⊞"
+          onClick={close}
+        />
 
         {/* SuperAdmin-only section */}
         {user.isSuperAdmin && (
           <>
-            <p className={styles.navSection}>Gestione globale</p>
-            <NavLink href="/admin/bares" label="Locali" icon="⌂" onClick={close} />
+            <p className={`m-0 uppercase ${styles.navSection}`}>Gestione globale</p>
+            <NavLink href={routes.admin.newBar} label="Locali"         icon="⌂" onClick={close} />
+            <NavLink href={routes.admin.users}  label="Amministratori" icon="◎" onClick={close} />
           </>
         )}
 
         {/* Bar sections — one per bar the admin has access to */}
         {user.bars.map(bar => (
           <div key={bar.slug}>
-            <p className={styles.navSection}>{bar.name}</p>
+            <p className={`m-0 uppercase ${styles.navSection}`}>{bar.name}</p>
             <NavLink href={routes.admin.bar.menu(bar.slug)}     label="Menù"           icon="≡" onClick={close} />
             <NavLink href={routes.admin.bar.events(bar.slug)}   label="Eventi"         icon="◈" onClick={close} />
             <NavLink href={routes.admin.bar.settings(bar.slug)} label="Configurazione" icon="◉" onClick={close} />
           </div>
         ))}
+
       </nav>
 
       {/* ── User info + logout ── */}
-      <div className={styles.userArea}>
-        <div className={styles.userInfo}>
-          <span className={styles.userName}>{user.name}</span>
-          <span className={styles.userEmail}>{user.email}</span>
+      <div className={`mt-auto flex items-center ${styles.userArea}`}>
+        <div className={`flex-1 min-w-0 flex flex-col ${styles.userInfo}`}>
+          <span className={`truncate ${styles.userName}`}>{user.name}</span>
+          <span className={`truncate ${styles.userEmail}`}>{user.email}</span>
           {user.isSuperAdmin && (
-            <span className={styles.superBadge}>Super Admin</span>
+            <span className={`inline-block uppercase w-fit ${styles.superBadge}`}>Super Admin</span>
           )}
         </div>
-        <button className={styles.logoutBtn} onClick={handleLogout}>
+        <button
+          className={`shrink-0 whitespace-nowrap cursor-pointer bg-transparent ${styles.logoutBtn}`}
+          onClick={handleLogout}
+        >
           Esci
         </button>
       </div>
@@ -128,32 +139,42 @@ export function AdminSidebar({ user }: Props) {
   return (
     <>
       {/* ── Mobile top bar ── */}
-      <div className={styles.topbar}>
+      <div className={`hidden fixed inset-x-0 top-0 z-[100] items-center justify-between px-4 ${styles.topbar}`}>
         <button
-          className={styles.menuBtn}
+          className="flex items-center bg-transparent border-none text-[color:var(--color-text-sidebar)] cursor-pointer p-2"
           onClick={() => setOpen(true)}
           aria-label="Apri menu"
         >
           <span className={styles.menuIcon}>☰</span>
         </button>
         <span className={styles.topbarTitle}>Birro Admin</span>
-        <div style={{ width: 40 }} />
+        <div className="w-10" />
       </div>
 
       {/* ── Desktop sidebar — always visible ── */}
-      <aside className={styles.sidebar}>
+      <aside className={`hidden fixed inset-y-0 left-0 z-50 overflow-y-auto flex-col ${styles.sidebar}`}>
         {sidebarContent}
       </aside>
 
       {/* ── Mobile drawer overlay ── */}
       {open && (
-        <div className={styles.overlay} onClick={close} aria-hidden="true" />
+        <div
+          className={`fixed inset-0 z-[190] ${styles.overlay}`}
+          onClick={close}
+          aria-hidden="true"
+        />
       )}
 
       {/* ── Mobile drawer ── */}
-      <aside className={clsx(styles.drawer, { [styles.drawerOpen]: open })}>
+      <aside
+        className={clsx(
+          "fixed inset-y-0 left-0 z-[200] overflow-y-auto flex flex-col",
+          styles.drawer,
+          { [styles.drawerOpen]: open }
+        )}
+      >
         <button
-          className={styles.closeBtn}
+          className={`hidden absolute top-4 right-4 bg-transparent border-none text-[1.1rem] cursor-pointer p-1 ${styles.closeBtn}`}
           onClick={close}
           aria-label="Chiudi menu"
         >

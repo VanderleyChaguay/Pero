@@ -46,3 +46,8 @@ Error en el llamado de las sesiones de supabase puede ralentar la pagina SOLUCIO
 Solucionado el error  creando un AdminShell che crea las llamadas async haciendo que el layout sea una pagina estatica.
 creacion de gestion de MENU en la dashboard , Partes con async call separadas en _components (carpeta ignorada por admin next.js en la carga) agregado un _types.ts para meter los valores que se comparten entre los componentes , agregar eliminar y desactivar menus creado correctamente  , creado tambien la creacion de items por menu eliminacion y desactivacion , precios edicion .
 creacion de gestion de Usuarios en la dashboard , Partes con async call separadas en _components (carpeta ignorada por admin next.js en la carga) agregado un _types.ts para meter los valores que se comparten entre los componentes , agregar eliminar y desactivar Users creado correctamente.
+termine de arreglar los <links> con routes erroneas 
+cambio de css 
+.env cambiato per errore con la conexion a supabase 
+seed , prisma e schema prisma cambiado la llamada del clietn de prisma
+implemento de tailwind css + css modules en todos los componenetes de la dashboard.

@@ -7,6 +7,7 @@ import "@/styles/themes/admin/style.css"
 import styles from "./layout.module.css"
 import { Suspense } from "react"
 import AdminShell from "./adminShell"
+import clsx from "clsx"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -20,7 +21,10 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <div data-theme="admin" className={styles.wrapper}>
+    <div
+      data-theme="admin"
+      className={clsx("min-h-screen", styles.wrapper)}
+    >
       <Suspense fallback={<AdminLoadingFallback />}>
         <AdminShell>{children}</AdminShell>
       </Suspense>
@@ -30,7 +34,12 @@ export default function AdminLayout({
 
 function AdminLoadingFallback() {
   return (
-    <div className={styles.loadingFallback}>
+    <div
+      className={clsx(
+        "flex items-center justify-center min-h-screen",
+        styles.loadingFallback
+      )}
+    >
       Caricamento...
     </div>
   )

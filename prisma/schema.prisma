@@ -25,6 +25,7 @@ model Bar {
   menus   Menu[]
   events  Event[]
   admins  AdminBarAccess[]
+  applications AdminApplication[]
 }
 
 model Menu {
@@ -117,6 +118,7 @@ model AdminUser {
   invitedBy    String?  // UUID of the admin who granted access
 
   barAccess AdminBarAccess[]
+  applications AdminApplication[]
 }
 
 // Links an admin to a specific bar — one admin can manage multiple bars
@@ -131,4 +133,25 @@ model AdminBarAccess {
   bar  Bar       @relation(fields: [barId], references: [id])
 
   @@unique([userId, barId])
+}
+
+model AdminApplication {
+  id         String            @id @default(cuid())
+  userId     String
+  barId      String
+  status     ApplicationStatus @default(PENDING)
+  createdAt  DateTime          @default(now())
+  reviewedAt DateTime?
+  reviewedBy String?
+
+  user AdminUser @relation(fields: [userId], references: [id])
+  bar  Bar       @relation(fields: [barId], references: [id])
+
+  @@unique([userId, barId])
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

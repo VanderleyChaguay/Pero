@@ -1,9 +1,7 @@
 /* app/admin/[barSlug]/menu/_components/MenuRow.module.css */
 
 .row {
-  display:       grid;
   grid-template-columns: 90px 1fr auto auto;
-  align-items:   center;
   gap:           var(--space-4);
   padding:       var(--space-4) var(--space-6);
   background:    var(--color-bg-card);
@@ -12,37 +10,30 @@
   box-shadow:    var(--shadow-card);
   transition:    border-color var(--transition-fast), opacity var(--transition-fast);
 }
-.row:hover { border-color: var(--color-primary-border); }
+.row:hover {
+  border-color: var(--color-primary-border);
+}
 
 /* ── Category badge ── */
 .categoryBadge {
   font-size:      var(--text-xs);
   font-weight:    600;
   letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
   color:          var(--color-primary);
   background:     var(--color-primary-subtle);
   padding:        0.3rem 0.7rem;
   border-radius:  var(--radius-sm);
-  text-align:     center;
-  white-space:    nowrap;
 }
 
 /* ── Info ── */
 .info {
-  display:        flex;
-  flex-direction: column;
-  gap:            2px;
-  min-width:      0;
+  gap: 2px;
 }
 
 .name {
-  font-size:     var(--text-base);
-  font-weight:   500;
-  color:         var(--color-text);
-  white-space:   nowrap;
-  overflow:      hidden;
-  text-overflow: ellipsis;
+  font-size:   var(--text-base);
+  font-weight: 500;
+  color:       var(--color-text);
 }
 
 .itemCount {
@@ -58,7 +49,6 @@
   background:    var(--color-success-bg);
   padding:       0.25rem 0.65rem;
   border-radius: var(--radius-sm);
-  white-space:   nowrap;
 }
 
 .badgeInactive {
@@ -68,28 +58,21 @@
   background:    var(--color-bg-badge);
   padding:       0.25rem 0.65rem;
   border-radius: var(--radius-sm);
-  white-space:   nowrap;
 }
 
 /* ── Action buttons ── */
 .actions {
-  display:  flex;
-  gap:      var(--space-2);
-  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .btnOutline {
-  display:         inline-flex;
-  align-items:     center;
-  font-size:       var(--text-xs);
-  font-weight:     500;
-  text-decoration: none;
-  color:           var(--color-primary);
-  border:          1px solid var(--color-primary-border);
-  padding:         0.35rem 0.85rem;
-  border-radius:   var(--radius-sm);
-  white-space:     nowrap;
-  transition:      all var(--transition-fast);
+  font-size:     var(--text-xs);
+  font-weight:   500;
+  color:         var(--color-primary);
+  border:        1px solid var(--color-primary-border);
+  padding:       0.35rem 0.85rem;
+  border-radius: var(--radius-sm);
+  transition:    all var(--transition-fast);
 }
 .btnOutline:hover {
   background: var(--color-primary);
@@ -100,37 +83,29 @@
   font-size:     var(--text-xs);
   font-weight:   500;
   color:         var(--color-text-muted);
-  background:    none;
   border:        1px solid var(--color-border);
   padding:       0.35rem 0.85rem;
   border-radius: var(--radius-sm);
-  cursor:        pointer;
-  white-space:   nowrap;
   transition:    all var(--transition-fast);
 }
 .btnGhost:hover:not(:disabled) {
   border-color: var(--color-border-strong);
   color:        var(--color-text);
 }
-.btnGhost:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btnDanger {
   font-size:     var(--text-xs);
   font-weight:   500;
   color:         var(--color-danger);
-  background:    none;
   border:        1px solid transparent;
   padding:       0.35rem 0.85rem;
   border-radius: var(--radius-sm);
-  cursor:        pointer;
-  white-space:   nowrap;
   transition:    all var(--transition-fast);
 }
 .btnDanger:hover:not(:disabled) {
   background:   var(--color-danger-bg);
   border-color: var(--color-danger);
 }
-.btnDanger:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {

@@ -16,17 +16,17 @@ export function AllergenPicker({
   onToggle:  (id: string) => void
 }) {
   return (
-    <div className={styles.section}>
-      <p className={styles.label}>Allergeni</p>
-      <div className={styles.grid}>
+    <div className={`flex flex-col ${styles.section}`}>
+      <p className={`m-0 uppercase ${styles.label}`}>Allergeni</p>
+      <div className={`flex flex-wrap ${styles.grid}`}>
         {allergens.map(a => (
           <button
             key={a.id}
             type="button"
             onClick={() => onToggle(a.id)}
-            className={
+            className={`cursor-pointer rounded-full ${
               selected.includes(a.id) ? styles.btnActive : styles.btn
-            }
+            }`}
           >
             {a.nameIt}
           </button>
