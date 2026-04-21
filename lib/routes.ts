@@ -33,8 +33,8 @@ export const routes = {
 
   // ── Auth ──
   auth: {
-    login:   "/auth/login",
-    signup:  "/auth/sign-up",
+    login:   "/login",
+    signup:  "/register",
     logout:  "/auth/logout",
   },
 

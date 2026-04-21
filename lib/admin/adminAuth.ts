@@ -11,7 +11,7 @@ export async function getCurrentUser() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) redirect("/auth/login")
+  if (!user) redirect("/login")
 
   return user
 }
@@ -24,7 +24,7 @@ export async function getAdminUser(userId: string) {
     include: { barAccess: { include: { bar: true } } },
   })
 
-  if (!adminUser) redirect("/auth/login")
+  if (!adminUser) redirect("/login")
 
   return adminUser
 }
