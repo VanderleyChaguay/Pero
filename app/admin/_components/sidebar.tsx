@@ -94,6 +94,12 @@ export function AdminSidebar({ user }: Props) {
           icon="⊞"
           onClick={close}
         />
+        <NavLink
+          href={routes.admin.apply}
+          label="Diventa admin"
+          icon="✦"
+          onClick={close}
+        />
 
         {/* SuperAdmin-only section */}
         {user.isSuperAdmin && (

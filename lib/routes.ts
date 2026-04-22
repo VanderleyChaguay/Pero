@@ -21,6 +21,7 @@ export const routes = {
     users:        "/admin/users",
     newBar:       "/admin/bars/new",
     applications: "/admin/users#applications", // anchor to applications section
+    apply:        "/admin/apply",
 
     bar: {
       root:      (slug: string) => `/admin/${slug}`,
