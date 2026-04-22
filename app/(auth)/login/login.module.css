@@ -1,6 +1,13 @@
-/* ── Card entrance animation ── */
+/* ── Card ── */
 .card {
   animation: cardEnter 0.4s ease both;
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
 }
 
 @keyframes cardEnter {
@@ -12,6 +19,34 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── Typography ── */
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.subheading {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  letter-spacing: var(--tracking-wide);
+  font-weight: 500;
+}
+
+.footer {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
 /* ── Input field ── */

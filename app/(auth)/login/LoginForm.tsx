@@ -4,12 +4,13 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import { routes } from "@/lib/routes"
 import styles from "./login.module.css"
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
+  const [email, setEmail]       = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError]       = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -23,7 +24,8 @@ export default function LoginForm() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
-      router.push("/admin")
+      router.refresh()
+      router.push(routes.admin.dashboard)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Errore durante l'accesso")
     } finally {
@@ -32,51 +34,15 @@ export default function LoginForm() {
   }
 
   return (
-    <div
-      className={styles.card}
-      style={{
-        backgroundColor: "var(--color-bg-card)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-md)",
-        boxShadow: "var(--shadow-card)",
-        padding: "2rem",
-        width: "100%",
-        maxWidth: "400px",
-      }}
-    >
-      {/* Header */}
+    <div className={styles.card}>
       <div className="mb-8">
-        <h1
-          className="font-semibold"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--text-2xl)",
-            color: "var(--color-text)",
-          }}
-        >
-          Accedi
-        </h1>
-        <p
-          className="mt-1"
-          style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}
-        >
-          Inserisci le tue credenziali per accedere
-        </p>
+        <h1 className={styles.heading}>Accedi</h1>
+        <p className={styles.subheading}>Inserisci le tue credenziali per accedere</p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleLogin} className="flex flex-col gap-5">
-        {/* Email */}
         <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor="email"
-            className="font-medium"
-            style={{
-              fontSize: "var(--text-sm)",
-              color: "var(--color-text-subtle)",
-              letterSpacing: "var(--tracking-wide)",
-            }}
-          >
+          <label htmlFor="email" className={styles.label}>
             Email
           </label>
           <input
@@ -91,25 +57,12 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Password */}
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label
-              htmlFor="password"
-              className="font-medium"
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--color-text-subtle)",
-                letterSpacing: "var(--tracking-wide)",
-              }}
-            >
+            <label htmlFor="password" className={styles.label}>
               Password
             </label>
-            <Link
-              href="/auth/forgot-password"
-              className={styles.link}
-              style={{ fontSize: "var(--text-xs)" }}
-            >
+            <Link href="/auth/forgot-password" className={`${styles.link} text-xs`}>
               Password dimenticata?
             </Link>
           </div>
@@ -124,22 +77,16 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Error */}
         {error && <p className={styles.error}>{error}</p>}
 
-        {/* Submit */}
         <button type="submit" disabled={isLoading} className={styles.button}>
           {isLoading ? "Accesso in corso..." : "Accedi"}
         </button>
       </form>
 
-      {/* Footer link */}
-      <p
-        className="mt-6 text-center"
-        style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}
-      >
+      <p className={styles.footer}>
         Non hai un account?{" "}
-        <Link href="/register" className={`font-medium ${styles.link}`}>
+        <Link href={routes.auth.signup} className={`font-medium ${styles.link}`}>
           Registrati
         </Link>
       </p>

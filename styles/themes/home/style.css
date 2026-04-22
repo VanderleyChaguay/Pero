@@ -1,0 +1,33 @@
+/* ══════════════════════════════════════════════════════════
+   styles/themes/home/style.css
+   Visual theme for the public homepage (Vael Space).
+   Applied via data-theme="home" in app/page.tsx.
+   Reuses the same variable naming convention as admin theme.
+══════════════════════════════════════════════════════════ */
+
+[data-theme="home"] {
+
+  /* ── Brand colors (same as admin) ── */
+  --color-primary:          #6B1E2A;
+  --color-primary-hover:    #4A1219;
+
+  /* ── Backgrounds (warm/light — mirrors admin palette) ── */
+  --color-bg-app:           #F0EBE3;   /* warm parchment outer bg         */
+  --color-bg-card:          #FFFFFF;   /* card surfaces                   */
+  --color-bg-hover:         #F7F3EE;   /* card hover state                */
+
+  /* ── Text ── */
+  --color-text:             #0F0A08;   /* near-black primary text         */
+  --color-text-muted:       #5A4A42;   /* warm brown secondary text       */
+
+  /* ── Borders ── */
+  --color-border:           rgba(15, 10, 8, 0.1);
+  --color-border-accent:    rgba(107, 30, 42, 0.2);
+
+  /* ── Typography ── */
+  --font-display:           'Georgia', serif;
+
+  /* ── Transitions ── */
+  --transition-fast:        0.18s ease;
+  --transition-med:         0.32s ease;
+}

@@ -11,6 +11,14 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* ── Home theme tokens (resolved via data-theme="home") ── */
+        "bg-app":    "var(--color-bg-app)",
+        "bg-card":   "var(--color-bg-card)",
+        "text-main": "var(--color-text)",
+        "text-muted-home": "var(--color-text-muted)",
+        "col-border":"var(--color-border)",
+        "primary-hover": "var(--color-primary-hover)",
+
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

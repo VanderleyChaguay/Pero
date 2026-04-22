@@ -3,15 +3,16 @@
 import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
+import { routes } from "@/lib/routes"
 import styles from "./register.module.css"
 
 export default function RegisterForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail]                   = useState("")
+  const [password, setPassword]             = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
+  const [error, setError]                   = useState<string | null>(null)
+  const [isLoading, setIsLoading]           = useState(false)
+  const [success, setSuccess]               = useState(false)
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,61 +45,24 @@ export default function RegisterForm() {
   }
 
   return (
-    <div
-      className={styles.card}
-      style={{
-        backgroundColor: "var(--color-bg-card)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-md)",
-        boxShadow: "var(--shadow-card)",
-        padding: "2rem",
-        width: "100%",
-        maxWidth: "400px",
-      }}
-    >
-      {/* Header */}
+    <div className={styles.card}>
       <div className="mb-8">
-        <h1
-          className="font-semibold"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--text-2xl)",
-            color: "var(--color-text)",
-          }}
-        >
-          Crea account
-        </h1>
-        <p
-          className="mt-1"
-          style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}
-        >
-          Registra un nuovo account amministratore
-        </p>
+        <h1 className={styles.heading}>Crea account</h1>
+        <p className={styles.subheading}>Registra un nuovo account amministratore</p>
       </div>
 
       {success ? (
-        /* Inline success state */
         <div className={styles.success}>
           <p className="font-medium mb-1">Controlla la tua email</p>
-          <p style={{ color: "var(--color-text-muted)", fontSize: "var(--text-xs)" }}>
+          <p className={styles.subheading}>
             Abbiamo inviato un link di conferma a <strong>{email}</strong>.
             Clicca sul link per attivare il tuo account.
           </p>
         </div>
       ) : (
-        /* Form */
         <form onSubmit={handleRegister} className="flex flex-col gap-5">
-          {/* Email */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="email"
-              className="font-medium"
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--color-text-subtle)",
-                letterSpacing: "var(--tracking-wide)",
-              }}
-            >
+            <label htmlFor="email" className={styles.label}>
               Email
             </label>
             <input
@@ -113,17 +77,8 @@ export default function RegisterForm() {
             />
           </div>
 
-          {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="password"
-              className="font-medium"
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--color-text-subtle)",
-                letterSpacing: "var(--tracking-wide)",
-              }}
-            >
+            <label htmlFor="password" className={styles.label}>
               Password
             </label>
             <input
@@ -137,17 +92,8 @@ export default function RegisterForm() {
             />
           </div>
 
-          {/* Confirm password */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="confirm-password"
-              className="font-medium"
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--color-text-subtle)",
-                letterSpacing: "var(--tracking-wide)",
-              }}
-            >
+            <label htmlFor="confirm-password" className={styles.label}>
               Conferma password
             </label>
             <input
@@ -161,23 +107,17 @@ export default function RegisterForm() {
             />
           </div>
 
-          {/* Error */}
           {error && <p className={styles.error}>{error}</p>}
 
-          {/* Submit */}
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? "Creazione in corso..." : "Crea account"}
           </button>
         </form>
       )}
 
-      {/* Footer link */}
-      <p
-        className="mt-6 text-center"
-        style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}
-      >
+      <p className={styles.footer}>
         Hai già un account?{" "}
-        <Link href="/login" className={`font-medium ${styles.link}`}>
+        <Link href={routes.auth.login} className={`font-medium ${styles.link}`}>
           Accedi
         </Link>
       </p>

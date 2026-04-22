@@ -6,10 +6,7 @@ export const metadata = {
 
 export default function RegisterPage() {
   return (
-    <main
-      className="flex min-h-screen w-full items-center justify-center p-6"
-      style={{ backgroundColor: "var(--color-bg-app)" }}
-    >
+    <main className="flex min-h-screen w-full items-center justify-center p-6 bg-bg-app">
       <RegisterForm />
     </main>
   )
