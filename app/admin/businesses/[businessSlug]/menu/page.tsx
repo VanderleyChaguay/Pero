@@ -14,7 +14,7 @@ async function getMenus(businessId: string) {
   return prisma.menu.findMany({
     where:   { businessId },
     include: { _count: { select: { items: true } } },
-    orderBy: { category: "asc" },
+    orderBy: { name: "asc" },
   })
 }
 

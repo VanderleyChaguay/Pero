@@ -8,13 +8,14 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import clsx from "clsx"
+import { routes } from "@/lib/routes"
 import styles from "./navbar.module.css"
 
 const NAV_LINKS = [
-  { label: "Storia",   href: "#storia"   },
-  { label: "Menù",     href: "#menu"     },
-  { label: "Eventi",   href: "#eventi"   },
-  { label: "Contatti", href: "#contatti" },
+  { label: "Storia",   href: "#storia"                    },
+  { label: "Menù",     href: routes.business.menu("pero") },
+  { label: "Eventi",   href: "#eventi"                    },
+  { label: "Contatti", href: "#contatti"                  },
 ]
 
 export function PeroNavbar() {

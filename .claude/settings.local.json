@@ -5,7 +5,11 @@
       "Bash(git mv *)",
       "PowerShell(Rename-Item -Path \"app\\\\bar\" -NewName \"business\" -Force)",
       "PowerShell(Rename-Item -Path \"components\\\\bar\" -NewName \"business\" -Force)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('next:', p.dependencies.next, '\\\\nprisma:', p.dependencies['@prisma/client'], '\\\\nreact:', p.dependencies.react\\)\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); console.log\\(JSON.parse\\(d\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('c:/Users/yovae/projects/birro/node_modules/next/package.json'\\).version\\)\")"
     ]
   }
 }

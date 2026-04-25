@@ -1,7 +1,6 @@
 "use client"
 
 // app/admin/businesses/[businessSlug]/menu/_components/CreateMenuForm.tsx
-// Form to create a new menu — category + name.
 
 import { useTransition } from "react"
 import { createMenu }    from "../actions"
@@ -23,20 +22,10 @@ export function CreateMenuForm({ businessSlug }: { businessSlug: string }) {
     <form onSubmit={handleSubmit} className={`flex flex-wrap ${styles.form}`}>
       <input
         name="name"
-        placeholder="Nome del menù (es. Cocktail estivi)"
+        placeholder="Nome del menù (es. Cocktail estivi, Carta vini, Cucina)"
         required
         className={`flex-1 min-w-[200px] outline-none ${styles.input}`}
       />
-      <select
-        name="category"
-        required
-        className={`cursor-pointer outline-none ${styles.select}`}
-      >
-        <option value="">Categoria</option>
-        <option value="DRINKS">Drinks</option>
-        <option value="WINE">Vini</option>
-        <option value="FOOD">Cucina</option>
-      </select>
       <button
         type="submit"
         disabled={pending}

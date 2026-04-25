@@ -1,12 +1,10 @@
 "use client"
 
 // app/admin/businesses/[businessSlug]/menu/_components/MenuRow.tsx
-// Single menu row with status badge and action buttons.
 
 import { useTransition }          from "react"
 import Link                       from "next/link"
 import { toggleMenu, deleteMenu } from "../actions"
-import { CATEGORY_LABELS }        from "../_types"
 import type { MenuSummary }       from "../_types"
 import styles                     from "./MenuRow.module.css"
 import { routes }                 from "@/lib/routes"
@@ -34,11 +32,6 @@ export function MenuRow({
       className={`grid items-center ${styles.row}`}
       style={{ opacity: pending ? 0.5 : 1 }}
     >
-      {/* Category badge */}
-      <span className={`uppercase text-center whitespace-nowrap ${styles.categoryBadge}`}>
-        {CATEGORY_LABELS[menu.category] ?? menu.category}
-      </span>
-
       {/* Name + item count */}
       <div className={`flex flex-col min-w-0 ${styles.info}`}>
         <span className={`truncate ${styles.name}`}>{menu.name}</span>

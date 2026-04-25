@@ -2,8 +2,9 @@
 // Shows a static preview of the 3 main menu categories
 // Static content — no interactivity needed, Server Component
 
-import Link from "next/link"
-import styles from "./menuPreview.module.css"
+import Link    from "next/link"
+import { routes } from "@/lib/routes"
+import styles  from "./menuPreview.module.css"
 
 // Placeholder data — will be replaced with real database data later
 const MENU_PREVIEW = [
@@ -60,7 +61,7 @@ export function PeroMenuPreview() {
         </div>
 
         <div className={styles.footer}>
-          <Link href="/business/pero/menu" className={styles.btnGhost}>
+          <Link href={routes.business.menu("pero")} className={styles.btnGhost}>
             Vedi il menù completo
           </Link>
         </div>

@@ -29,20 +29,13 @@ model Business {
 }
 
 model Menu {
-  id         String       @id @default(cuid())
+  id         String  @id @default(cuid())
   businessId String
-  category   MenuCategory
   name       String
-  isActive   Boolean      @default(true)
+  isActive   Boolean @default(true)
 
   business Business    @relation(fields: [businessId], references: [id])
   items    MenuItem[]
-}
-
-enum MenuCategory {
-  DRINKS
-  FOOD
-  WINE
 }
 
 model MenuItem {

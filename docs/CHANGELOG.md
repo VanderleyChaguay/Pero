@@ -55,3 +55,4 @@ cambio en la pagina de login y register , implementado el tailwind + css modules
 creacion de la seccion para aplicar a un bar o restaurante
 Cambio en el nombre del modelo del schema.prisma bar -> Bussines , para mayor globalizacion , cambiado todo los sitios en el cual estaba bar como referimento.
 Agregue connection en homeShell para hacerlo un componente dinamico.
+cree la seccion de menuview, elimine los enum del menu model porque creaba incongruencia en el map.menu , todo lo que tenia que ser cambiado fue cambiado.

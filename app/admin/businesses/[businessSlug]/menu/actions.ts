@@ -12,6 +12,10 @@ import { revalidatePath }        from "next/cache"
 
 function revalidateMenu(businessSlug: string) {
   revalidatePath(`/admin/businesses/${businessSlug}/menu`)
+  // Also revalidate the public menu page so changes appear immediately.
+  // Needed even though the public route is dynamic — covers PPR shell cache
+  // and any future caching strategy changes.
+  revalidatePath(`/business/${businessSlug}/menu`)
 }
 
 function revalidateItems(businessSlug: string, menuId: string) {
@@ -23,16 +27,13 @@ function revalidateItems(businessSlug: string, menuId: string) {
 export async function createMenu(businessSlug: string, formData: FormData) {
   const { business } = await requireBusinessAccess(businessSlug)
 
-  const name     = (formData.get("name") as string).trim()
-  const category = formData.get("category") as string
-
-  if (!name || !category) return
+  const name = (formData.get("name") as string).trim()
+  if (!name) return
 
   await prisma.menu.create({
     data: {
       businessId: business.id,
       name,
-      category:   category as "DRINKS" | "FOOD" | "WINE",
       isActive:   true,
     },
   })
