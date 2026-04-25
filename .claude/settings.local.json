@@ -10,7 +10,12 @@
       "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('next:', p.dependencies.next, '\\\\nprisma:', p.dependencies['@prisma/client'], '\\\\nreact:', p.dependencies.react\\)\")",
       "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); console.log\\(JSON.parse\\(d\\).version\\)\")",
       "Bash(node -e \"console.log\\(require\\('c:/Users/yovae/projects/birro/node_modules/next/package.json'\\).version\\)\")",
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "Read(//c/Users/yovae/.claude/projects/c--Users-yovae-projects-birro/memory/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\yovae\\.claude\\projects\\c--Users-yovae-projects-birro\\memory",
+      "c:\\Users\\yovae\\projects\\birro\\.next"
     ]
   }
 }

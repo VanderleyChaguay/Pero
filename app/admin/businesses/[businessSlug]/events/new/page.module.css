@@ -1,0 +1,33 @@
+/* ══════════════════════════════════════════════════════════
+   page.module.css — New Event Page
+   Hybrid: Tailwind layout, CSS Modules for theme tokens.
+══════════════════════════════════════════════════════════ */
+
+.page {
+  gap:       var(--space-6);
+  max-width: 720px;
+}
+
+.backLink {
+  font-size:   var(--text-xs);
+  font-weight: 500;
+  color:       var(--color-text-muted);
+  transition:  color var(--transition-fast);
+}
+.backLink:hover {
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  font-size:      var(--text-xs);
+  font-weight:    600;
+  letter-spacing: var(--tracking-wider);
+  color:          var(--color-primary);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size:   var(--text-2xl);
+  font-weight: 400;
+  color:       var(--color-text);
+}

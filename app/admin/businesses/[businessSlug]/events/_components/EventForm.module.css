@@ -1,0 +1,143 @@
+/* ══════════════════════════════════════════════════════════
+   EventForm.module.css — Create / Edit Event Form
+   Hybrid: Tailwind layout, CSS Modules for theme tokens.
+══════════════════════════════════════════════════════════ */
+
+.form {
+  gap:           var(--space-6);
+  padding:       var(--space-6);
+  background:    var(--color-bg-card);
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow:    var(--shadow-card);
+}
+
+/* ── Field wrapper ── */
+.field {
+  gap: var(--space-2);
+}
+
+.label {
+  font-size:      var(--text-xs);
+  font-weight:    600;
+  letter-spacing: var(--tracking-wide);
+  color:          var(--color-text-subtle);
+  text-transform: uppercase;
+}
+
+.optional {
+  font-weight:    400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Text inputs ── */
+.input {
+  padding:       0.65rem 0.9rem;
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size:     var(--text-sm);
+  color:         var(--color-text);
+  background:    var(--color-bg-input);
+  transition:    border-color var(--transition-fast);
+}
+.input:focus {
+  border-color: var(--color-primary);
+}
+.input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+/* datetime-local inputs need explicit color on the calendar icon */
+.input[type="datetime-local"] {
+  color-scheme: light;
+}
+
+/* ── Textarea ── */
+.textarea {
+  padding:       0.65rem 0.9rem;
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size:     var(--text-sm);
+  color:         var(--color-text);
+  background:    var(--color-bg-input);
+  font-family:   var(--font-body);
+  line-height:   var(--leading-normal);
+  transition:    border-color var(--transition-fast);
+}
+.textarea:focus {
+  border-color: var(--color-primary);
+}
+.textarea::placeholder {
+  color: var(--color-text-subtle);
+}
+
+/* ── Dates row ── */
+.datesRow {
+  gap: var(--space-4);
+}
+
+/* ── Status toggle ── */
+.statusRow {
+  gap: var(--space-4);
+}
+
+.statusToggle {
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow:      hidden;
+}
+
+.statusBtn {
+  padding:     0.4rem 1rem;
+  font-size:   var(--text-xs);
+  font-weight: 500;
+  color:       var(--color-text-muted);
+  background:  transparent;
+  border:      none;
+  transition:  background var(--transition-fast), color var(--transition-fast);
+}
+.statusBtn:hover {
+  background: var(--color-bg-hover);
+  color:      var(--color-text);
+}
+
+.statusActive {
+  background: var(--color-bg-badge);
+  color:      var(--color-text);
+}
+
+.statusPublished {
+  background: var(--color-success-bg);
+  color:      var(--color-success);
+}
+
+/* ── Footer ── */
+.footer {
+  gap:        var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.btnSubmit {
+  padding:       0.65rem 1.5rem;
+  background:    var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size:     var(--text-sm);
+  font-weight:   500;
+  transition:    background var(--transition-fast);
+}
+.btnSubmit:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.hint {
+  font-size: var(--text-xs);
+  color:     var(--color-text-subtle);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .datesRow {
+    flex-direction: column;
+  }
+}

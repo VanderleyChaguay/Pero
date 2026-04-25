@@ -81,16 +81,21 @@ model MenuItemAllergen {
 }
 
 model Event {
-  id          String   @id @default(cuid())
-  businessId  String
-  title       String
-  description String   @db.Text
-  date        DateTime
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  id            String      @id @default(cuid())
+  businessId    String
+  title         String
+  description   String      @db.Text
+  startDate     DateTime
+  endDate       DateTime?
+  coverImageUrl String?
+  status        EventStatus @default(DRAFT)
+  createdAt     DateTime    @default(now())
 
   business Business     @relation(fields: [businessId], references: [id])
   photos   EventPhoto[]
+
+  @@index([businessId])
+  @@index([businessId, startDate])
 }
 
 model EventPhoto {
@@ -101,6 +106,13 @@ model EventPhoto {
   order   Int     @default(0)
 
   event Event @relation(fields: [eventId], references: [id])
+
+  @@index([eventId, order])
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
 }
 
 // AdminUser mirrors auth.users from Supabase Auth

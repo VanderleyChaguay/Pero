@@ -56,3 +56,5 @@ creacion de la seccion para aplicar a un bar o restaurante
 Cambio en el nombre del modelo del schema.prisma bar -> Bussines , para mayor globalizacion , cambiado todo los sitios en el cual estaba bar como referimento.
 Agregue connection en homeShell para hacerlo un componente dinamico.
 cree la seccion de menuview, elimine los enum del menu model porque creaba incongruencia en el map.menu , todo lo que tenia que ser cambiado fue cambiado.
+Cambios en AdminAuth y rpoxy para lo optimizacion y velocidad de respuesta , cambio en la llamada de la session actual ahora no usa getcurrentUser -> getClaims , no duplica la llamada de la sesion actual.
+Creado la seccion de gestion de eventos en la dashboard. con optimizador y compresor de imagenes de imagenes , !!!!!!!!!!!error en la carga de imagenes no me deja cargar las imagenes.

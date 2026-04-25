@@ -28,6 +28,8 @@ export const routes = {
       menu:      (slug: string) => `/admin/businesses/${slug}/menu`,
       menuItems: (slug: string, menuId: string) => `/admin/businesses/${slug}/menu/${menuId}`,
       events:    (slug: string) => `/admin/businesses/${slug}/events`,
+      newEvent:  (slug: string) => `/admin/businesses/${slug}/events/new`,
+      editEvent: (slug: string, eventId: string) => `/admin/businesses/${slug}/events/${eventId}`,
       settings:  (slug: string) => `/admin/businesses/${slug}/settings`,
     },
   },

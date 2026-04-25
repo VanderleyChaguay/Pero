@@ -5,7 +5,6 @@ import { Suspense } from "react"
 import { createClient } from "@/lib/supabase/server"
 import { prisma } from "@/lib/prisma/prisma"
 import { routes } from "@/lib/routes"
-import { connection } from "next/server" 
 
 // ── Async sub-components ────────────────────────────────────────────────────
 // Each owns exactly one async concern and is suspended independently.
@@ -13,9 +12,11 @@ import { connection } from "next/server"
 
 async function AuthCTA() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  // getClaims() validates the JWT locally — no Supabase network round trip.
+  const { data } = await supabase.auth.getClaims()
+  const isLoggedIn = Boolean(data?.claims)
 
-  if (user) {
+  if (isLoggedIn) {
     return (
       <Link href={routes.admin.dashboard} className={styles.btnPrimary}>
         Vai alla dashboard
@@ -36,10 +37,10 @@ async function AuthCTA() {
 }
 
 async function BusinessesGrid() {
-  await connection() // For dinamic components
+  "use cache"
   const businesses = await prisma.business.findMany({
-    select: { slug: true, name: true, address: true },
-    take: 8,
+    select:  { slug: true, name: true, address: true },
+    take:    8,
     orderBy: { createdAt: "asc" },
   })
 
