@@ -1,6 +1,6 @@
 "use client"
 
-// app/admin/[barSlug]/menu/[menuId]/_components/CreateItemForm.tsx
+// app/admin/businesses/[businessSlug]/menu/[menuId]/_components/CreateItemForm.tsx
 // Form to create a new menu item with allergen selection.
 
 import { useState, useTransition } from "react"
@@ -10,13 +10,13 @@ import type { Allergen }           from "../_types"
 import styles                      from "./CreateItemForm.module.css"
 
 export function CreateItemForm({
-  barSlug,
+  businessSlug,
   menuId,
   allergens,
 }: {
-  barSlug:   string
-  menuId:    string
-  allergens: Allergen[]
+  businessSlug: string
+  menuId:       string
+  allergens:    Allergen[]
 }) {
   const [pending, startTransition]       = useTransition()
   const [selectedAllergens, setSelected] = useState<string[]>([])
@@ -33,7 +33,7 @@ export function CreateItemForm({
     const formData = new FormData(form)
 
     startTransition(async () => {
-      await createMenuItem(barSlug, menuId, formData, selectedAllergens)
+      await createMenuItem(businessSlug, menuId, formData, selectedAllergens)
       form.reset()
       setSelected([])
     })

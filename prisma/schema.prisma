@@ -8,8 +8,8 @@ datasource db {
   provider = "postgresql"
 }
 
-// Represents each bar — each has its own menus, events and admins
-model Bar {
+// Represents each business — each has its own menus, events and admins
+model Business {
   id           String   @id @default(cuid())
   slug         String   @unique
   name         String
@@ -22,21 +22,21 @@ model Bar {
   primaryColor String   @default("#000000")
   createdAt    DateTime @default(now())
 
-  menus   Menu[]
-  events  Event[]
-  admins  AdminBarAccess[]
+  menus        Menu[]
+  events       Event[]
+  admins       AdminBusinessAccess[]
   applications AdminApplication[]
 }
 
 model Menu {
-  id       String       @id @default(cuid())
-  barId    String
-  category MenuCategory
-  name     String
-  isActive Boolean      @default(true)
+  id         String       @id @default(cuid())
+  businessId String
+  category   MenuCategory
+  name       String
+  isActive   Boolean      @default(true)
 
-  bar   Bar        @relation(fields: [barId], references: [id])
-  items MenuItem[]
+  business Business    @relation(fields: [businessId], references: [id])
+  items    MenuItem[]
 }
 
 enum MenuCategory {
@@ -85,15 +85,15 @@ model MenuItemAllergen {
 
 model Event {
   id          String   @id @default(cuid())
-  barId       String
+  businessId  String
   title       String
   description String   @db.Text
   date        DateTime
   isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())
 
-  bar    Bar          @relation(fields: [barId], references: [id])
-  photos EventPhoto[]
+  business Business     @relation(fields: [businessId], references: [id])
+  photos   EventPhoto[]
 }
 
 model EventPhoto {
@@ -117,37 +117,37 @@ model AdminUser {
   createdAt    DateTime @default(now())
   invitedBy    String?  // UUID of the admin who granted access
 
-  barAccess AdminBarAccess[]
-  applications AdminApplication[]
+  businessAccess AdminBusinessAccess[]
+  applications   AdminApplication[]
 }
 
-// Links an admin to a specific bar — one admin can manage multiple bars
-model AdminBarAccess {
-  id        String   @id @default(cuid())
-  userId    String
-  barId     String
-  grantedBy String   // UUID of the admin who approved this access
-  createdAt DateTime @default(now())
+// Links an admin to a specific business — one admin can manage multiple businesses
+model AdminBusinessAccess {
+  id         String   @id @default(cuid())
+  userId     String
+  businessId String
+  grantedBy  String   // UUID of the admin who approved this access
+  createdAt  DateTime @default(now())
 
-  user AdminUser @relation(fields: [userId], references: [id])
-  bar  Bar       @relation(fields: [barId], references: [id])
+  user     AdminUser @relation(fields: [userId], references: [id])
+  business Business  @relation(fields: [businessId], references: [id])
 
-  @@unique([userId, barId])
+  @@unique([userId, businessId])
 }
 
 model AdminApplication {
   id         String            @id @default(cuid())
   userId     String
-  barId      String
+  businessId String
   status     ApplicationStatus @default(PENDING)
   createdAt  DateTime          @default(now())
   reviewedAt DateTime?
   reviewedBy String?
 
-  user AdminUser @relation(fields: [userId], references: [id])
-  bar  Bar       @relation(fields: [barId], references: [id])
+  user     AdminUser @relation(fields: [userId], references: [id])
+  business Business  @relation(fields: [businessId], references: [id])
 
-  @@unique([userId, barId])
+  @@unique([userId, businessId])
 }
 
 enum ApplicationStatus {

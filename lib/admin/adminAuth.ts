@@ -17,11 +17,11 @@ export async function getCurrentUser() {
 }
 
 // ── Get the AdminUser record from the database ───────────────────────────────
-// Returns the full AdminUser with bar access list
+// Returns the full AdminUser with business access list
 export async function getAdminUser(userId: string) {
   const adminUser = await prisma.adminUser.findUnique({
     where:   { id: userId },
-    include: { barAccess: { include: { bar: true } } },
+    include: { businessAccess: { include: { business: true } } },
   })
 
   if (!adminUser) redirect("/login")
@@ -38,7 +38,7 @@ export async function requireAdmin() {
 }
 
 // ── Require SuperAdmin ───────────────────────────────────────────────────────
-// Use this on pages only SuperAdmins can access (user management, bar creation)
+// Use this on pages only SuperAdmins can access (user management, business creation)
 export async function requireSuperAdmin() {
   const adminUser = await requireAdmin()
 
@@ -47,21 +47,21 @@ export async function requireSuperAdmin() {
   return adminUser
 }
 
-// ── Require access to a specific bar ────────────────────────────────────────
-// SuperAdmins pass automatically — BarAdmins only if they have explicit access
-export async function requireBarAccess(barSlug: string) {
+// ── Require access to a specific business ───────────────────────────────────
+// SuperAdmins pass automatically — BusinessAdmins only if they have explicit access
+export async function requireBusinessAccess(businessSlug: string) {
   const adminUser = await requireAdmin()
 
   // SuperAdmins have access to everything
   if (adminUser.isSuperAdmin) {
-    const bar = await prisma.bar.findUnique({ where: { slug: barSlug } })
-    if (!bar) redirect("/admin")
-    return { adminUser, bar }
+    const business = await prisma.business.findUnique({ where: { slug: businessSlug } })
+    if (!business) redirect("/admin")
+    return { adminUser, business }
   }
 
-  // BarAdmins — check explicit access
-  const access = adminUser.barAccess.find(a => a.bar.slug === barSlug)
+  // BusinessAdmins — check explicit access
+  const access = adminUser.businessAccess.find(a => a.business.slug === businessSlug)
   if (!access) redirect("/admin")
 
-  return { adminUser, bar: access.bar }
+  return { adminUser, business: access.business }
 }

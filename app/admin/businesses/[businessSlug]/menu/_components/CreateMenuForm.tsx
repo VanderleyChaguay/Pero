@@ -1,20 +1,20 @@
 "use client"
 
-// app/admin/[barSlug]/menu/_components/CreateMenuForm.tsx
+// app/admin/businesses/[businessSlug]/menu/_components/CreateMenuForm.tsx
 // Form to create a new menu — category + name.
 
 import { useTransition } from "react"
 import { createMenu }    from "../actions"
 import styles            from "./CreateMenuForm.module.css"
 
-export function CreateMenuForm({ barSlug }: { barSlug: string }) {
+export function CreateMenuForm({ businessSlug }: { businessSlug: string }) {
   const [pending, startTransition] = useTransition()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     startTransition(async () => {
-      await createMenu(barSlug, formData)
+      await createMenu(businessSlug, formData)
       e.currentTarget?.reset()
     })
   }

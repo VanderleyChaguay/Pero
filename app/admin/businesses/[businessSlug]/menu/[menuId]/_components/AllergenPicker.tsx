@@ -1,6 +1,6 @@
 "use client"
 
-// app/admin/[barSlug]/menu/[menuId]/_components/AllergenPicker.tsx
+// app/admin/businesses/[businessSlug]/menu/[menuId]/_components/AllergenPicker.tsx
 // Reusable allergen selector — used in both create and edit forms.
 
 import type { Allergen } from "../_types"

@@ -1,18 +1,18 @@
 "use client"
 
 // app/admin/utenti/_components/GrantAccessForm.tsx
-// Search bar with live results dropdown to grant bar access to users.
+// Search bar with live results dropdown to grant business access to users.
 
 import { useState, useTransition, useEffect, useRef } from "react"
-import { searchUsers, grantBarAccess }                from "../actions"
-import type { Bar, SearchResult }                     from "../_types"
+import { searchUsers, grantBusinessAccess }           from "../actions"
+import type { Business, SearchResult }                from "../_types"
 import styles                                         from "./GrantAccessForm.module.css"
 
-export function GrantAccessForm({ bars }: { bars: Bar[] }) {
+export function GrantAccessForm({ businesses }: { businesses: Business[] }) {
   const [query,      setQuery]        = useState("")
   const [results,    setResults]      = useState<SearchResult[]>([])
   const [selected,   setSelected]     = useState<SearchResult | null>(null)
-  const [barId,      setBarId]        = useState("")
+  const [businessId, setBusinessId]   = useState("")
   const [showDrop,   setShowDrop]     = useState(false)
   const [searching,  setSearching]    = useState(false)
   const [pending,    startTransition] = useTransition()
@@ -64,20 +64,20 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
   const handleClear = () => {
     setSelected(null)
     setQuery("")
-    setBarId("")
+    setBusinessId("")
     setFeedback(null)
   }
 
   const handleGrant = () => {
-    if (!selected || !barId) return
+    if (!selected || !businessId) return
     setFeedback(null)
 
     startTransition(async () => {
       try {
-        await grantBarAccess(selected.id, barId)
+        await grantBusinessAccess(selected.id, businessId)
         setFeedback({
           type:    "success",
-          message: `Accesso a "${bars.find(b => b.id === barId)?.name}" concesso a ${selected.name}`,
+          message: `Accesso a "${businesses.find(b => b.id === businessId)?.name}" concesso a ${selected.name}`,
         })
         handleClear()
       } catch (err) {
@@ -89,11 +89,11 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
     })
   }
 
-  // Bars this selected user already has access to
+  // Businesses this selected user already has access to
   const alreadyHasAccess = selected
-    ? selected.barAccess.map(a => a.bar.id)
+    ? selected.businessAccess.map(a => a.business.id)
     : []
-  const availableBars = bars.filter(b => !alreadyHasAccess.includes(b.id))
+  const availableBusinesses = businesses.filter(b => !alreadyHasAccess.includes(b.id))
 
   return (
     <div className={`flex flex-col ${styles.form}`}>
@@ -144,9 +144,9 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
                     )}
                   </div>
                   <div className={styles.dropdownItemEmail}>{user.email}</div>
-                  {user.barAccess.length > 0 && (
+                  {user.businessAccess.length > 0 && (
                     <div className={styles.dropdownItemBars}>
-                      {user.barAccess.map(a => a.bar.name).join(", ")}
+                      {user.businessAccess.map(a => a.business.name).join(", ")}
                     </div>
                   )}
                 </button>
@@ -164,26 +164,26 @@ export function GrantAccessForm({ bars }: { bars: Bar[] }) {
           )}
         </div>
 
-        {/* ── Bar selector — only shown after selecting a user ── */}
+        {/* ── Business selector — only shown after selecting a user ── */}
         {selected && (
           <select
-            value={barId}
-            onChange={e => setBarId(e.target.value)}
+            value={businessId}
+            onChange={e => setBusinessId(e.target.value)}
             className={`outline-none cursor-pointer ${styles.select}`}
           >
             <option value="">Seleziona locale</option>
-            {availableBars.length === 0 ? (
+            {availableBusinesses.length === 0 ? (
               <option disabled>Ha già accesso a tutti i locali</option>
             ) : (
-              availableBars.map(bar => (
-                <option key={bar.id} value={bar.id}>{bar.name}</option>
+              availableBusinesses.map(business => (
+                <option key={business.id} value={business.id}>{business.name}</option>
               ))
             )}
           </select>
         )}
 
         {/* ── Grant button ── */}
-        {selected && barId && (
+        {selected && businessId && (
           <button
             type="button"
             onClick={handleGrant}

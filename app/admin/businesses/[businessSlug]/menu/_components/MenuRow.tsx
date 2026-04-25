@@ -1,6 +1,6 @@
 "use client"
 
-// app/admin/[barSlug]/menu/_components/MenuRow.tsx
+// app/admin/businesses/[businessSlug]/menu/_components/MenuRow.tsx
 // Single menu row with status badge and action buttons.
 
 import { useTransition }          from "react"
@@ -9,24 +9,24 @@ import { toggleMenu, deleteMenu } from "../actions"
 import { CATEGORY_LABELS }        from "../_types"
 import type { MenuSummary }       from "../_types"
 import styles                     from "./MenuRow.module.css"
-import { routes } from "@/lib/routes"
+import { routes }                 from "@/lib/routes"
 
 export function MenuRow({
   menu,
-  barSlug,
+  businessSlug,
 }: {
-  menu:    MenuSummary
-  barSlug: string
+  menu:         MenuSummary
+  businessSlug: string
 }) {
   const [pending, startTransition] = useTransition()
 
   const handleToggle = () => {
-    startTransition(() => toggleMenu(barSlug, menu.id, menu.isActive))
+    startTransition(() => toggleMenu(businessSlug, menu.id, menu.isActive))
   }
 
   const handleDelete = () => {
     if (!confirm(`Eliminare "${menu.name}" e tutti i suoi articoli?`)) return
-    startTransition(() => deleteMenu(barSlug, menu.id))
+    startTransition(() => deleteMenu(businessSlug, menu.id))
   }
 
   return (
@@ -53,7 +53,7 @@ export function MenuRow({
       {/* Actions */}
       <div className={`flex flex-wrap ${styles.actions}`}>
         <Link
-          href={routes.admin.bar.menuItems(barSlug, menu.id)}
+          href={routes.admin.business.menuItems(businessSlug, menu.id)}
           className={`inline-flex items-center no-underline whitespace-nowrap ${styles.btnOutline}`}
         >
           Gestisci voci

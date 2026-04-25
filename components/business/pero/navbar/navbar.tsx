@@ -42,7 +42,7 @@ export function PeroNavbar() {
     })}>
 
       {/* ── Logo ── */}
-      <Link href="/bar/pero" className={styles.logoLink}>
+      <Link href="/business/pero" className={styles.logoLink}>
         <Image
           src="/images/pero/PeroWithoutBackGround.png"
           alt="Però"

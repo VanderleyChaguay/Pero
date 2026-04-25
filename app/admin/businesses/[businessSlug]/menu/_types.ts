@@ -1,4 +1,4 @@
-// app/admin/[barSlug]/menu/_types.ts
+// app/admin/businesses/[businessSlug]/menu/_types.ts
 // Shared types and constants for the menu management feature.
 
 export type MenuSummary = {

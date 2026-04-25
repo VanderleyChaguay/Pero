@@ -60,7 +60,7 @@ export function PeroMenuPreview() {
         </div>
 
         <div className={styles.footer}>
-          <Link href="/bar/pero/menu" className={styles.btnGhost}>
+          <Link href="/business/pero/menu" className={styles.btnGhost}>
             Vedi il menù completo
           </Link>
         </div>

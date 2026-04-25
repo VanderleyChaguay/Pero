@@ -1,6 +1,6 @@
 // app/admin/apply/page.tsx
 // Server Component — authenticates and renders the apply shell.
-// All bar status data is fetched inside the searchBars Server Action
+// All business status data is fetched inside the searchBusinesses Server Action
 // so results are always fresh and never stale from page-load time.
 
 import { requireAdmin } from "@/lib/admin/adminAuth"
@@ -11,7 +11,7 @@ export const metadata = { title: "Diventa admin — Birro" }
 
 export default async function ApplyPage() {
   // Auth check only — no data pre-fetching needed here.
-  // searchBars enriches results with isAdmin/hasApplied on every call.
+  // searchBusinesses enriches results with isAdmin/hasApplied on every call.
   await requireAdmin()
 
   return (

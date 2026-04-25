@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(git mv *)",
+      "PowerShell(Rename-Item -Path \"app\\\\bar\" -NewName \"business\" -Force)",
+      "PowerShell(Rename-Item -Path \"components\\\\bar\" -NewName \"business\" -Force)",
+      "Bash(git add *)"
+    ]
+  }
+}

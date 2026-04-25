@@ -1,20 +1,20 @@
-// app/admin/[barSlug]/menu/[menuId]/page.tsx
+// app/admin/businesses/[businessSlug]/menu/[menuId]/page.tsx
 // Menu items management page — lists all items in a menu.
 // Allows creating, editing, toggling and deleting items.
 
-import { requireBarAccess } from "@/lib/admin/adminAuth"
-import { prisma }           from "@/lib/prisma/prisma"
-import { CreateItemForm }   from "./_components/CreateItemForm"
-import { ItemList }         from "./_components/ItemList"
-import Link                 from "next/link"
-import styles               from "./page.module.css"
-import { routes } from "@/lib/routes"
+import { requireBusinessAccess } from "@/lib/admin/adminAuth"
+import { prisma }                from "@/lib/prisma/prisma"
+import { CreateItemForm }        from "./_components/CreateItemForm"
+import { ItemList }              from "./_components/ItemList"
+import Link                      from "next/link"
+import styles                    from "./page.module.css"
+import { routes }                from "@/lib/routes"
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
-async function getMenu(menuId: string, barId: string) {
+async function getMenu(menuId: string, businessId: string) {
   return prisma.menu.findFirst({
-    where: { id: menuId, barId },
+    where: { id: menuId, businessId },
   })
 }
 
@@ -48,27 +48,27 @@ function serializeItems(items: Awaited<ReturnType<typeof getItems>>) {
 export default async function MenuItemsPage({
   params,
 }: {
-  params: Promise<{ barSlug: string; menuId: string }>
+  params: Promise<{ businessSlug: string; menuId: string }>
 }) {
-  const { barSlug, menuId } = await params
+  const { businessSlug, menuId } = await params
 
   // Auth, items and allergens run in parallel — none depends on the others.
-  // Only getMenu needs bar.id, so it runs after auth resolves.
-  const [{ bar }, items, allergens] = await Promise.all([
-    requireBarAccess(barSlug),
+  // Only getMenu needs business.id, so it runs after auth resolves.
+  const [{ business }, items, allergens] = await Promise.all([
+    requireBusinessAccess(businessSlug),
     getItems(menuId),
     getAllergens(),
   ])
 
-  const menu = await getMenu(menuId, bar.id)
+  const menu = await getMenu(menuId, business.id)
 
-  // If menu doesn't belong to this bar, show not found
+  // If menu doesn't belong to this business, show not found
   if (!menu) {
     return (
       <div className={`flex flex-col ${styles.notFound}`}>
         <p>Menù non trovato.</p>
         <Link
-          href={routes.admin.bar.menu(barSlug)}
+          href={routes.admin.business.menu(businessSlug)}
           className={`inline-flex items-center no-underline ${styles.backLink}`}
         >
           ← Torna ai menù
@@ -86,12 +86,12 @@ export default async function MenuItemsPage({
       <div className={`flex flex-col ${styles.header}`}>
         <div>
           <Link
-            href={routes.admin.bar.menu(barSlug)}
+            href={routes.admin.business.menu(businessSlug)}
             className={`inline-flex items-center no-underline ${styles.backLink}`}
           >
             ← Menù
           </Link>
-          <p className={`m-0 uppercase ${styles.eyebrow}`}>{bar.name} · {menu.name}</p>
+          <p className={`m-0 uppercase ${styles.eyebrow}`}>{business.name} · {menu.name}</p>
           <h1 className={`m-0 ${styles.title}`}>Gestione Voci</h1>
           <p className={`m-0 ${styles.subtitle}`}>
             {items.length} voci totali · {availableCount} disponibili
@@ -103,7 +103,7 @@ export default async function MenuItemsPage({
       <section className={`flex flex-col ${styles.section}`}>
         <h2 className={`m-0 uppercase ${styles.sectionTitle}`}>Nuova voce</h2>
         <CreateItemForm
-          barSlug={barSlug}
+          businessSlug={businessSlug}
           menuId={menuId}
           allergens={allergens}
         />
@@ -115,7 +115,7 @@ export default async function MenuItemsPage({
         <ItemList
           items={serializeItems(items)}
           allergens={allergens}
-          barSlug={barSlug}
+          businessSlug={businessSlug}
           menuId={menuId}
         />
       </section>

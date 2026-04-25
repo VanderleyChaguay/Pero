@@ -1,6 +1,6 @@
 "use client"
 
-// app/admin/[barSlug]/menu/[menuId]/_components/ItemRow.tsx
+// app/admin/businesses/[businessSlug]/menu/[menuId]/_components/ItemRow.tsx
 // Single menu item row with view/edit modes.
 
 import { useState, useTransition } from "react"
@@ -17,13 +17,13 @@ import styles                      from "./ItemRow.module.css"
 export function ItemRow({
   item,
   allergens,
-  barSlug,
+  businessSlug,
   menuId,
 }: {
-  item:      MenuItem
-  allergens: Allergen[]
-  barSlug:   string
-  menuId:    string
+  item:         MenuItem
+  allergens:    Allergen[]
+  businessSlug: string
+  menuId:       string
 }) {
   const [editing, setEditing]            = useState(false)
   const [pending, startTransition]       = useTransition()
@@ -39,21 +39,21 @@ export function ItemRow({
 
   const handleToggleAvailable = () => {
     startTransition(() =>
-      toggleMenuItem(barSlug, item.id, menuId, item.isAvailable)
+      toggleMenuItem(businessSlug, item.id, menuId, item.isAvailable)
     )
   }
 
   const handleDelete = () => {
     if (!confirm(`Eliminare "${item.name}"?`)) return
-    startTransition(() => deleteMenuItem(barSlug, item.id, menuId))
+    startTransition(() => deleteMenuItem(businessSlug, item.id, menuId))
   }
 
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     startTransition(async () => {
-      await updateMenuItem(barSlug, item.id, menuId, formData)
-      await updateItemAllergens(barSlug, item.id, menuId, selectedAllergens)
+      await updateMenuItem(businessSlug, item.id, menuId, formData)
+      await updateItemAllergens(businessSlug, item.id, menuId, selectedAllergens)
       setEditing(false)
     })
   }

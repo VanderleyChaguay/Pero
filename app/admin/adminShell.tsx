@@ -18,9 +18,9 @@ export default async function AdminShell({
     name:         adminUser.name,
     email:        adminUser.email,
     isSuperAdmin: adminUser.isSuperAdmin,
-    bars:         adminUser.barAccess.map(a => ({
-      slug: a.bar.slug,
-      name: a.bar.name,
+    businesses:   adminUser.businessAccess.map(a => ({
+      slug: a.business.slug,
+      name: a.business.name,
     })),
   }
 

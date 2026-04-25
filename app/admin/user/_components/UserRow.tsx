@@ -1,29 +1,29 @@
 "use client"
 
 // app/admin/utenti/_components/UserRow.tsx
-// Single user row with bar access management and role toggle.
+// Single user row with business access management and role toggle.
 // Each row has its own useTransition — so only this row shows pending state.
 
-import { useTransition }                    from "react"
-import { grantBarAccess, revokeBarAccess,
-         toggleSuperAdmin }                 from "../actions"
-import type { User, Bar }                   from "../_types"
-import styles                               from "./UserRow.module.css"
+import { useTransition }                               from "react"
+import { grantBusinessAccess, revokeBusinessAccess,
+         toggleSuperAdmin }                            from "../actions"
+import type { User, Business }                         from "../_types"
+import styles                                          from "./UserRow.module.css"
 
 export function UserRow({
   user,
-  allBars,
+  allBusinesses,
   currentUserId,
 }: {
   user:          User
-  allBars:       Bar[]
+  allBusinesses: Business[]
   currentUserId: string
 }) {
   const [pending, startTransition] = useTransition()
 
-  const isSelf            = user.id === currentUserId
-  const accessibleBarIds  = user.barAccess.map(a => a.bar.id)
-  const barsWithoutAccess = allBars.filter(b => !accessibleBarIds.includes(b.id))
+  const isSelf                  = user.id === currentUserId
+  const accessibleBusinessIds   = user.businessAccess.map(a => a.business.id)
+  const businessesWithoutAccess = allBusinesses.filter(b => !accessibleBusinessIds.includes(b.id))
 
   const handleToggleSuperAdmin = () => {
     if (!confirm(
@@ -34,13 +34,13 @@ export function UserRow({
     startTransition(() => toggleSuperAdmin(user.id, user.isSuperAdmin))
   }
 
-  const handleRevoke = (barId: string, barName: string) => {
-    if (!confirm(`Revocare l'accesso di ${user.name} a "${barName}"?`)) return
-    startTransition(() => revokeBarAccess(user.id, barId))
+  const handleRevoke = (businessId: string, businessName: string) => {
+    if (!confirm(`Revocare l'accesso di ${user.name} a "${businessName}"?`)) return
+    startTransition(() => revokeBusinessAccess(user.id, businessId))
   }
 
-  const handleGrant = (barId: string) => {
-    startTransition(() => grantBarAccess(user.id, barId))
+  const handleGrant = (businessId: string) => {
+    startTransition(() => grantBusinessAccess(user.id, businessId))
   }
 
   return (
@@ -61,19 +61,19 @@ export function UserRow({
         <span className={styles.email}>{user.email}</span>
       </div>
 
-      {/* Bar access */}
+      {/* Business access */}
       <div className={`flex-1 flex flex-col min-w-0 ${styles.accessSection}`}>
         <p className={`m-0 uppercase ${styles.accessLabel}`}>Accesso ai locali</p>
         <div className={`flex flex-wrap ${styles.accessTags}`}>
-          {user.barAccess.length === 0 ? (
+          {user.businessAccess.length === 0 ? (
             <span className={styles.noAccess}>Nessun accesso</span>
           ) : (
-            user.barAccess.map(({ bar }) => (
-              <div key={bar.id} className={`flex items-center ${styles.accessTag}`}>
-                <span>{bar.name}</span>
+            user.businessAccess.map(({ business }) => (
+              <div key={business.id} className={`flex items-center ${styles.accessTag}`}>
+                <span>{business.name}</span>
                 {!isSelf && (
                   <button
-                    onClick={() => handleRevoke(bar.id, bar.name)}
+                    onClick={() => handleRevoke(business.id, business.name)}
                     disabled={pending}
                     className={`flex items-center justify-center bg-transparent border-none cursor-pointer p-0 rounded-full disabled:opacity-50 disabled:cursor-not-allowed ${styles.revokeBtn}`}
                   >
@@ -85,16 +85,16 @@ export function UserRow({
           )}
         </div>
 
-        {!isSelf && barsWithoutAccess.length > 0 && (
+        {!isSelf && businessesWithoutAccess.length > 0 && (
           <div className={`flex flex-wrap ${styles.addAccess}`}>
-            {barsWithoutAccess.map(bar => (
+            {businessesWithoutAccess.map(business => (
               <button
-                key={bar.id}
-                onClick={() => handleGrant(bar.id)}
+                key={business.id}
+                onClick={() => handleGrant(business.id)}
                 disabled={pending}
                 className={`bg-transparent cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${styles.addAccessBtn}`}
               >
-                + {bar.name}
+                + {business.name}
               </button>
             ))}
           </div>

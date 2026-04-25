@@ -34,14 +34,14 @@ async function AuthCTA() {
   )
 }
 
-async function BarsGrid() {
-  const bars = await prisma.bar.findMany({
+async function BusinessesGrid() {
+  const businesses = await prisma.business.findMany({
     select: { slug: true, name: true, address: true },
     take: 8,
     orderBy: { createdAt: "asc" },
   })
 
-  if (bars.length === 0) return null
+  if (businesses.length === 0) return null
 
   return (
     <section className="px-6 pb-28 max-w-4xl mx-auto">
@@ -52,18 +52,18 @@ async function BarsGrid() {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {bars.map((bar) => (
+        {businesses.map((business) => (
           <Link
-            key={bar.slug}
-            href={routes.bar.home(bar.slug)}
+            key={business.slug}
+            href={routes.business.home(business.slug)}
             className={`${styles.card} bg-bg-card border border-col-border`}
           >
             <span className="text-text-main text-sm font-medium">
-              {bar.name}
+              {business.name}
             </span>
-            {bar.address && (
+            {business.address && (
               <span className="text-text-muted-home text-xs mt-2 leading-relaxed line-clamp-1">
-                {bar.address}
+                {business.address}
               </span>
             )}
           </Link>
@@ -101,7 +101,7 @@ export default function HomeShell() {
       </section>
 
       <Suspense fallback={null}>
-        <BarsGrid />
+        <BusinessesGrid />
       </Suspense>
 
     </div>

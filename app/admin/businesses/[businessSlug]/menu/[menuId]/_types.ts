@@ -1,4 +1,4 @@
-// app/admin/[barSlug]/menu/[menuId]/_types.ts
+// app/admin/businesses/[businessSlug]/menu/[menuId]/_types.ts
 // Shared types for the menu items management feature.
 
 export type Allergen = {

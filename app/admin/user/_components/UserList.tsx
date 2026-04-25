@@ -3,19 +3,19 @@
 // app/admin/utenti/_components/UserList.tsx
 // Filterable list of admin users.
 
-import { useState }       from "react"
-import { UserRow }        from "./UserRow"
-import type { User, Bar } from "../_types"
-import styles             from "./UserList.module.css"
+import { useState }             from "react"
+import { UserRow }              from "./UserRow"
+import type { User, Business }  from "../_types"
+import styles                   from "./UserList.module.css"
 
 export function UserList({
   users,
-  allBars,
+  allBusinesses,
   currentUserId,
 }: {
-  users:         User[]
-  allBars:       Bar[]
-  currentUserId: string
+  users:          User[]
+  allBusinesses:  Business[]
+  currentUserId:  string
 }) {
   const [query, setQuery] = useState("")
 
@@ -57,7 +57,7 @@ export function UserList({
             <UserRow
               key={user.id}
               user={user}
-              allBars={allBars}
+              allBusinesses={allBusinesses}
               currentUserId={currentUserId}
             />
           ))}

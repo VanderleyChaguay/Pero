@@ -1,6 +1,6 @@
 "use client"
 
-// app/admin/[barSlug]/menu/[menuId]/_components/ItemList.tsx
+// app/admin/businesses/[businessSlug]/menu/[menuId]/_components/ItemList.tsx
 // Renders the list of menu items or an empty state.
 
 import { ItemRow }                 from "./ItemRow"
@@ -10,13 +10,13 @@ import styles                      from "./ItemList.module.css"
 export function ItemList({
   items,
   allergens,
-  barSlug,
+  businessSlug,
   menuId,
 }: {
-  items:     MenuItem[]
-  allergens: Allergen[]
-  barSlug:   string
-  menuId:    string
+  items:        MenuItem[]
+  allergens:    Allergen[]
+  businessSlug: string
+  menuId:       string
 }) {
   if (items.length === 0) {
     return (
@@ -33,7 +33,7 @@ export function ItemList({
           key={item.id}
           item={item}
           allergens={allergens}
-          barSlug={barSlug}
+          businessSlug={businessSlug}
           menuId={menuId}
         />
       ))}

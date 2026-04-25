@@ -1,20 +1,20 @@
 "use client"
 
 // app/admin/apply/_components/ApplyClient.tsx
-// Client Component — search input + bar results + apply interactions.
-// Receives no props: all bar status (isAdmin, hasApplied) comes from the
-// searchBars Server Action on every query, so data is never stale.
+// Client Component — search input + business results + apply interactions.
+// Receives no props: all business status (isAdmin, hasApplied) comes from the
+// searchBusinesses Server Action on every query, so data is never stale.
 
-import { useState, useEffect, useRef, useCallback } from "react"
-import { searchBars, applyToBar, type BarResult }   from "../actions"
-import styles                                        from "../page.module.css"
-import clsx                                          from "clsx"
+import { useState, useEffect, useRef, useCallback }             from "react"
+import { searchBusinesses, applyToBusiness, type BusinessResult } from "../actions"
+import styles                                                    from "../page.module.css"
+import clsx                                                      from "clsx"
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function ApplyClient() {
   const [query,     setQuery]     = useState("")
-  const [results,   setResults]   = useState<BarResult[]>([])
+  const [results,   setResults]   = useState<BusinessResult[]>([])
   const [searching, setSearching] = useState(false)
   const [applying,  setApplying]  = useState<string | null>(null)
   const [errors,    setErrors]    = useState<Record<string, string>>({})
@@ -38,7 +38,7 @@ export function ApplyClient() {
     setSearching(true)
 
     debounceRef.current = setTimeout(async () => {
-      const data = await searchBars(trimmed)
+      const data = await searchBusinesses(trimmed)
       setResults(data)
       setSearching(false)
     }, 350)
@@ -53,19 +53,19 @@ export function ApplyClient() {
   // re-running the search. The server-side revalidatePath ensures a hard
   // refresh would also show the correct state.
 
-  const handleApply = useCallback(async (barId: string) => {
-    setApplying(barId)
-    setErrors(prev => { const next = { ...prev }; delete next[barId]; return next })
+  const handleApply = useCallback(async (businessId: string) => {
+    setApplying(businessId)
+    setErrors(prev => { const next = { ...prev }; delete next[businessId]; return next })
 
     try {
-      await applyToBar(barId)
+      await applyToBusiness(businessId)
 
-      // Optimistic update — mark bar as applied in local state immediately
+      // Optimistic update — mark business as applied in local state immediately
       setResults(prev =>
-        prev.map(bar =>
-          bar.id === barId
-            ? { ...bar, hasApplied: true, applicationStatus: "PENDING" }
-            : bar
+        prev.map(business =>
+          business.id === businessId
+            ? { ...business, hasApplied: true, applicationStatus: "PENDING" }
+            : business
         )
       )
     } catch (e) {
@@ -73,7 +73,7 @@ export function ApplyClient() {
         ? e.message
         : "Errore durante l'invio della richiesta"
 
-      setErrors(prev => ({ ...prev, [barId]: message }))
+      setErrors(prev => ({ ...prev, [businessId]: message }))
     } finally {
       setApplying(null)
     }
@@ -105,12 +105,12 @@ export function ApplyClient() {
       {/* ── Results list ── */}
       {hasResults && (
         <ul className={styles.resultsList}>
-          {results.map(bar => (
-            <BarResultItem
-              key={bar.id}
-              bar={bar}
-              isApplying={applying === bar.id}
-              error={errors[bar.id]}
+          {results.map(business => (
+            <BusinessResultItem
+              key={business.id}
+              business={business}
+              isApplying={applying === business.id}
+              error={errors[business.id]}
               onApply={handleApply}
             />
           ))}
@@ -127,57 +127,57 @@ export function ApplyClient() {
   )
 }
 
-// ── Bar result item ───────────────────────────────────────────────────────────
+// ── Business result item ──────────────────────────────────────────────────────
 // Extracted to prevent the whole list re-rendering when one item's state changes.
 
-type BarResultItemProps = {
-  bar:        BarResult
+type BusinessResultItemProps = {
+  business:   BusinessResult
   isApplying: boolean
   error:      string | undefined
-  onApply:    (barId: string) => void
+  onApply:    (businessId: string) => void
 }
 
-function BarResultItem({ bar, isApplying, error, onApply }: BarResultItemProps) {
-  const disabled = bar.isAdmin || bar.hasApplied || isApplying
+function BusinessResultItem({ business, isApplying, error, onApply }: BusinessResultItemProps) {
+  const disabled = business.isAdmin || business.hasApplied || isApplying
 
   return (
     <li className={`flex items-center justify-between ${styles.resultItem}`}>
 
-      {/* ── Bar info ── */}
+      {/* ── Business info ── */}
       <div className={`flex flex-col ${styles.barInfo}`}>
-        <span className={styles.barName}>{bar.name}</span>
-        <span className={styles.barAddress}>{bar.address}</span>
+        <span className={styles.barName}>{business.name}</span>
+        <span className={styles.barAddress}>{business.address}</span>
         {error && (
           <span className={styles.errorMsg}>{error}</span>
         )}
-        {bar.hasApplied && bar.applicationStatus && !error && (
+        {business.hasApplied && business.applicationStatus && !error && (
           <span className={styles.successMsg}>
-            {bar.applicationStatus === "PENDING"  && "Richiesta in attesa di revisione"}
-            {bar.applicationStatus === "APPROVED" && "Richiesta approvata"}
-            {bar.applicationStatus === "REJECTED" && "Richiesta rifiutata"}
+            {business.applicationStatus === "PENDING"  && "Richiesta in attesa di revisione"}
+            {business.applicationStatus === "APPROVED" && "Richiesta approvata"}
+            {business.applicationStatus === "REJECTED" && "Richiesta rifiutata"}
           </span>
         )}
       </div>
 
       {/* ── Action button — three distinct states ── */}
       <button
-        onClick={() => onApply(bar.id)}
+        onClick={() => onApply(business.id)}
         disabled={disabled}
         className={clsx(styles.applyBtn, {
-          [styles.applyBtnAdmin]:   bar.isAdmin,
-          [styles.applyBtnApplied]: !bar.isAdmin && bar.hasApplied,
+          [styles.applyBtnAdmin]:   business.isAdmin,
+          [styles.applyBtnApplied]: !business.isAdmin && business.hasApplied,
         })}
         title={
-          bar.isAdmin    ? "Hai già accesso a questo locale" :
-          bar.hasApplied ? "Richiesta già inviata"           :
+          business.isAdmin    ? "Hai già accesso a questo locale" :
+          business.hasApplied ? "Richiesta già inviata"           :
           undefined
         }
       >
         {isApplying
           ? "Invio…"
-          : bar.isAdmin
+          : business.isAdmin
             ? "Già amministratore"
-            : bar.hasApplied
+            : business.hasApplied
               ? "Richiesta inviata"
               : "Richiedi accesso"}
       </button>

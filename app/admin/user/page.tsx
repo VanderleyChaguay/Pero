@@ -1,29 +1,29 @@
 // app/admin/utenti/page.tsx
 // User management page.
-// SuperAdmin sees all users with their bar access.
-// BarAdmin sees a simplified view to grant access to their own bars.
+// SuperAdmin sees all users with their business access.
+// BusinessAdmin sees a simplified view to grant access to their own businesses.
 
-import { requireAdmin }   from "@/lib/admin/adminAuth"
-import { prisma }         from "@/lib/prisma/prisma"
+import { requireAdmin }    from "@/lib/admin/adminAuth"
+import { prisma }          from "@/lib/prisma/prisma"
 import { GrantAccessForm } from "./_components/GrantAccessForm"
-import { UserList }       from "./_components/UserList"
-import styles             from "./page.module.css"
+import { UserList }        from "./_components/UserList"
+import styles              from "./page.module.css"
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getAllUsers() {
   return prisma.adminUser.findMany({
     include: {
-      barAccess: {
-        include: { bar: { select: { id: true, slug: true, name: true } } },
+      businessAccess: {
+        include: { business: { select: { id: true, slug: true, name: true } } },
       },
     },
     orderBy: { isSuperAdmin: "desc" },
   })
 }
 
-async function getAllBars() {
-  return prisma.bar.findMany({
+async function getAllBusinesses() {
+  return prisma.business.findMany({
     select:  { id: true, slug: true, name: true },
     orderBy: { name: "asc" },
   })
@@ -34,11 +34,11 @@ async function getAllBars() {
 export default async function UtentiPage() {
   const adminUser = await requireAdmin()
 
-  // SuperAdmin: fetch all users + all bars in parallel
-  // BarAdmin: only sees bars they manage (from auth data)
-  const [users, allBars] = adminUser.isSuperAdmin
-    ? await Promise.all([getAllUsers(), getAllBars()])
-    : [[], adminUser.barAccess.map(a => a.bar)]
+  // SuperAdmin: fetch all users + all businesses in parallel
+  // BusinessAdmin: only sees businesses they manage (from auth data)
+  const [users, allBusinesses] = adminUser.isSuperAdmin
+    ? await Promise.all([getAllUsers(), getAllBusinesses()])
+    : [[], adminUser.businessAccess.map(a => a.business)]
 
   return (
     <div className={`flex flex-col ${styles.page}`}>
@@ -63,7 +63,7 @@ export default async function UtentiPage() {
           Cerca un utente per email e dagli accesso a un locale.
           L&apos;utente deve essere già registrato nel sistema.
         </p>
-        <GrantAccessForm bars={allBars} />
+        <GrantAccessForm businesses={allBusinesses} />
       </section>
 
       {/* ── Users list — SuperAdmin only ── */}
@@ -72,7 +72,7 @@ export default async function UtentiPage() {
           <h2 className={`m-0 uppercase ${styles.sectionTitle}`}>Tutti gli utenti</h2>
           <UserList
             users={users}
-            allBars={allBars}
+            allBusinesses={allBusinesses}
             currentUserId={adminUser.id}
           />
         </section>

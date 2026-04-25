@@ -4,31 +4,31 @@
 //
 // Usage:
 //   import { routes } from "@/lib/routes"
-//   <Link href={routes.admin.bar.menu("pero")}>Menù</Link>
+//   <Link href={routes.admin.business.menu("pero")}>Menù</Link>
 
 export const routes = {
 
-  // ── Public bar pages ──
-  bar: {
-    home:   (slug: string) => `/bar/${slug}`,
-    menu:   (slug: string) => `/bar/${slug}/menu`,
-    events: (slug: string) => `/bar/${slug}/eventi`,
+  // ── Public business pages ──
+  business: {
+    home:   (slug: string) => `/business/${slug}`,
+    menu:   (slug: string) => `/business/${slug}/menu`,
+    events: (slug: string) => `/business/${slug}/eventi`,
   },
 
   // ── Admin panel ──
   admin: {
     dashboard:    "/admin",
-    users:        "/admin/users",
-    newBar:       "/admin/bars/new",
-    applications: "/admin/users#applications", // anchor to applications section
+    users:        "/admin/user",
+    newBusiness:  "/admin/businesses/new",
+    applications: "/admin/user#applications", // anchor to applications section
     apply:        "/admin/apply",
 
-    bar: {
-      root:      (slug: string) => `/admin/${slug}`,
-      menu:      (slug: string) => `/admin/${slug}/menu`,
-      menuItems: (slug: string, menuId: string) => `/admin/${slug}/menu/${menuId}`,
-      events:    (slug: string) => `/admin/${slug}/events`,
-      settings:  (slug: string) => `/admin/${slug}/settings`,
+    business: {
+      root:      (slug: string) => `/admin/businesses/${slug}`,
+      menu:      (slug: string) => `/admin/businesses/${slug}/menu`,
+      menuItems: (slug: string, menuId: string) => `/admin/businesses/${slug}/menu/${menuId}`,
+      events:    (slug: string) => `/admin/businesses/${slug}/events`,
+      settings:  (slug: string) => `/admin/businesses/${slug}/settings`,
     },
   },
 

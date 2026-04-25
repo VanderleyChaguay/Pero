@@ -52,3 +52,4 @@ cambio de css
 seed , prisma e schema prisma cambiado la llamada del clietn de prisma
 implemento de tailwind css + css modules en todos los componenetes de la dashboard.
 cambio en la pagina de login y register , implementado el tailwind + css modules , eliminando la plantilla de supabase
+creacion de la seccion para aplicar a un bar o restaurante

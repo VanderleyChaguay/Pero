@@ -1,7 +1,7 @@
 // Shared TypeScript types for the entire application
 // These mirror the Prisma schema models
 
-export type Bar = {
+export type Business = {
   id:           string
   slug:         string
   name:         string
@@ -38,17 +38,17 @@ export type MenuItem = {
 }
 
 export type Menu = {
-  id:       string
-  barId:    string
-  category: MenuCategory
-  name:     string
-  isActive: boolean
-  items:    MenuItem[]
+  id:         string
+  businessId: string
+  category:   MenuCategory
+  name:       string
+  isActive:   boolean
+  items:      MenuItem[]
 }
 
 export type Event = {
   id:          string
-  barId:       string
+  businessId:  string
   title:       string
   description: string
   date:        string

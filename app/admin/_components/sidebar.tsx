@@ -15,7 +15,7 @@ import styles           from "./sidebar.module.css"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Bar = {
+type Business = {
   slug: string
   name: string
 }
@@ -25,7 +25,7 @@ type Props = {
     name:         string
     email:        string
     isSuperAdmin: boolean
-    bars:         Bar[]
+    businesses:   Business[]
   }
 }
 
@@ -105,18 +105,18 @@ export function AdminSidebar({ user }: Props) {
         {user.isSuperAdmin && (
           <>
             <p className={`m-0 uppercase ${styles.navSection}`}>Gestione globale</p>
-            <NavLink href={routes.admin.newBar} label="Locali"         icon="⌂" onClick={close} />
-            <NavLink href={routes.admin.users}  label="Amministratori" icon="◎" onClick={close} />
+            <NavLink href={routes.admin.newBusiness} label="Locali"         icon="⌂" onClick={close} />
+            <NavLink href={routes.admin.users}       label="Amministratori" icon="◎" onClick={close} />
           </>
         )}
 
-        {/* Bar sections — one per bar the admin has access to */}
-        {user.bars.map(bar => (
-          <div key={bar.slug}>
-            <p className={`m-0 uppercase ${styles.navSection}`}>{bar.name}</p>
-            <NavLink href={routes.admin.bar.menu(bar.slug)}     label="Menù"           icon="≡" onClick={close} />
-            <NavLink href={routes.admin.bar.events(bar.slug)}   label="Eventi"         icon="◈" onClick={close} />
-            <NavLink href={routes.admin.bar.settings(bar.slug)} label="Configurazione" icon="◉" onClick={close} />
+        {/* Business sections — one per business the admin has access to */}
+        {user.businesses.map(business => (
+          <div key={business.slug}>
+            <p className={`m-0 uppercase ${styles.navSection}`}>{business.name}</p>
+            <NavLink href={routes.admin.business.menu(business.slug)}     label="Menù"           icon="≡" onClick={close} />
+            <NavLink href={routes.admin.business.events(business.slug)}   label="Eventi"         icon="◈" onClick={close} />
+            <NavLink href={routes.admin.business.settings(business.slug)} label="Configurazione" icon="◉" onClick={close} />
           </div>
         ))}
 

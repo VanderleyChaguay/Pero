@@ -8,7 +8,7 @@ import { requireAdmin,
          requireSuperAdmin } from "@/lib/admin/adminAuth"
 import { revalidatePath }    from "next/cache"
 
-const REVALIDATE = "/admin/utenti"
+const REVALIDATE = "/admin/user"
 
 // ── Search users by name or email ─────────────────────────────────────────────
 // Returns up to 8 results — used by the search bar in the UI
@@ -31,8 +31,8 @@ export async function searchUsers(query: string) {
       name:         true,
       email:        true,
       isSuperAdmin: true,
-      barAccess: {
-        include: { bar: { select: { id: true, name: true } } },
+      businessAccess: {
+        include: { business: { select: { id: true, name: true } } },
       },
     },
     take: 8,
@@ -40,34 +40,34 @@ export async function searchUsers(query: string) {
   })
 }
 
-// ── Grant bar access to a user ────────────────────────────────────────────────
-export async function grantBarAccess(userId: string, barId: string) {
+// ── Grant business access to a user ──────────────────────────────────────────
+export async function grantBusinessAccess(userId: string, businessId: string) {
   const adminUser = await requireAdmin()
 
   if (!adminUser.isSuperAdmin) {
-    const hasAccess = adminUser.barAccess.some(a => a.barId === barId)
+    const hasAccess = adminUser.businessAccess.some(a => a.businessId === businessId)
     if (!hasAccess) throw new Error("Non hai i permessi per questo locale")
   }
 
-  await prisma.adminBarAccess.upsert({
-    where:  { userId_barId: { userId, barId } },
+  await prisma.adminBusinessAccess.upsert({
+    where:  { userId_businessId: { userId, businessId } },
     update: {},
-    create: { userId, barId, grantedBy: adminUser.id },
+    create: { userId, businessId, grantedBy: adminUser.id },
   })
 
   revalidatePath(REVALIDATE)
 }
 
-// ── Revoke bar access from a user ─────────────────────────────────────────────
-export async function revokeBarAccess(userId: string, barId: string) {
+// ── Revoke business access from a user ───────────────────────────────────────
+export async function revokeBusinessAccess(userId: string, businessId: string) {
   const adminUser = await requireAdmin()
 
   if (!adminUser.isSuperAdmin) {
-    const hasAccess = adminUser.barAccess.some(a => a.barId === barId)
+    const hasAccess = adminUser.businessAccess.some(a => a.businessId === businessId)
     if (!hasAccess) throw new Error("Non hai i permessi per questo locale")
   }
 
-  await prisma.adminBarAccess.deleteMany({ where: { userId, barId } })
+  await prisma.adminBusinessAccess.deleteMany({ where: { userId, businessId } })
 
   revalidatePath(REVALIDATE)
 }

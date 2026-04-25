@@ -1,4 +1,4 @@
-// app/admin/[barSlug]/menu/_components/MenuList.tsx
+// app/admin/businesses/[businessSlug]/menu/_components/MenuList.tsx
 // Renders the list of menus or an empty state.
 
 import { MenuRow }          from "./MenuRow"
@@ -7,10 +7,10 @@ import styles               from "./MenuList.module.css"
 
 export function MenuList({
   menus,
-  barSlug,
+  businessSlug,
 }: {
-  menus:   MenuSummary[]
-  barSlug: string
+  menus:        MenuSummary[]
+  businessSlug: string
 }) {
   if (menus.length === 0) {
     return (
@@ -23,7 +23,7 @@ export function MenuList({
   return (
     <div className={`flex flex-col ${styles.list}`}>
       {menus.map(menu => (
-        <MenuRow key={menu.id} menu={menu} barSlug={barSlug} />
+        <MenuRow key={menu.id} menu={menu} businessSlug={businessSlug} />
       ))}
     </div>
   )
