@@ -1,7 +1,7 @@
 // MenuContent — async Server Component.
-// Fetches menus from Prisma and serializes Decimal prices before passing
-// data to MenuView (Client Component).
-// Filter rules: businessId + isActive = true only. Never filter by item count.
+// Single Prisma query fetches business name + all active menus + items in one
+// round trip. Decimal prices are serialized before crossing the server→client
+// boundary. No grouping logic — menus are passed as a flat array.
 
 import { connection } from "next/server"
 import { prisma }     from "@/lib/prisma/prisma"
@@ -26,34 +26,36 @@ export type SerializedMenu = {
   items: SerializedItem[]
 }
 
-// ── Queries ───────────────────────────────────────────────────────────────────
+// ── Query — single round trip ─────────────────────────────────────────────────
+// Fetches business + menus + items in one DB call.
+// Filter: isActive = true on menus. Items are never filtered — an empty menu
+// renders as an empty-state tab, not as a missing tab.
 
-async function getBusinessBySlug(slug: string) {
+async function getMenuData(slug: string) {
   return prisma.business.findUnique({
     where:  { slug },
-    select: { id: true, name: true },
-  })
-}
-
-async function getActiveMenus(businessId: string) {
-  return prisma.menu.findMany({
-    where:   { businessId, isActive: true },
-    orderBy: { name: "asc" },
     select: {
-      id:   true,
       name: true,
-      items: {
-        orderBy: { order: "asc" },
+      menus: {
+        where:   { isActive: true },
+        orderBy: { name: "asc" },
         select: {
-          id:          true,
-          name:        true,
-          description: true,
-          price:       true,
-          imageUrl:    true,
-          isAvailable: true,
-          allergens: {
+          id:   true,
+          name: true,
+          items: {
+            orderBy: { order: "asc" },
             select: {
-              allergen: { select: { nameIt: true, slug: true } },
+              id:          true,
+              name:        true,
+              description: true,
+              price:       true,
+              imageUrl:    true,
+              isAvailable: true,
+              allergens: {
+                select: {
+                  allergen: { select: { nameIt: true, slug: true } },
+                },
+              },
             },
           },
         },
@@ -67,12 +69,10 @@ async function getActiveMenus(businessId: string) {
 export async function MenuContent({ slug }: { slug: string }) {
   await connection()
 
-  const business = await getBusinessBySlug(slug)
+  const business = await getMenuData(slug)
   if (!business) notFound()
 
-  const rawMenus = await getActiveMenus(business.id)
-
-  const menus: SerializedMenu[] = rawMenus.map(menu => ({
+  const menus: SerializedMenu[] = business.menus.map(menu => ({
     id:    menu.id,
     name:  menu.name,
     items: (menu.items ?? []).map(item => ({

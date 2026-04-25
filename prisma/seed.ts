@@ -216,14 +216,14 @@ async function main() {
   // ── Admin setup ────────────────────────────────────────────────────────────
   console.log("Setting up admin permissions...")
 
-  const MAIN_ADMIN_ID = "6e74fdc4-8d8b-4d7f-b481-1d7f201daa0e"
+  const MAIN_ADMIN_ID = "1bf6a749-73e2-4982-8b34-839052e19d3d"
 
   await prisma.adminUser.upsert({
     where:  { id: MAIN_ADMIN_ID },
     update: { isSuperAdmin: true },
     create: {
       id:          MAIN_ADMIN_ID,
-      email:       "tua-email@esempio.com", // <--- METTI LA TUA EMAIL REALE QUI
+      email:       "yovaelocone@gmail.com", // <--- METTI LA TUA EMAIL REALE QUI
       name:        "Super Admin",
       isSuperAdmin: true,
     },

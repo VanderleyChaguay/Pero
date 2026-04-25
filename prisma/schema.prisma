@@ -36,6 +36,8 @@ model Menu {
 
   business Business    @relation(fields: [businessId], references: [id])
   items    MenuItem[]
+
+  @@index([businessId])
 }
 
 model MenuItem {
@@ -51,6 +53,8 @@ model MenuItem {
 
   menu      Menu               @relation(fields: [menuId], references: [id])
   allergens MenuItemAllergen[]
+
+  @@index([menuId, order])
 }
 
 // The 14 legally required allergens in Europe (EU Regulation 1169/2011)
