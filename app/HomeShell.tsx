@@ -5,6 +5,7 @@ import { Suspense } from "react"
 import { createClient } from "@/lib/supabase/server"
 import { prisma } from "@/lib/prisma/prisma"
 import { routes } from "@/lib/routes"
+import { connection } from "next/server" 
 
 // ── Async sub-components ────────────────────────────────────────────────────
 // Each owns exactly one async concern and is suspended independently.
@@ -35,6 +36,7 @@ async function AuthCTA() {
 }
 
 async function BusinessesGrid() {
+  await connection() // For dinamic components
   const businesses = await prisma.business.findMany({
     select: { slug: true, name: true, address: true },
     take: 8,
