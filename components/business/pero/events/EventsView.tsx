@@ -2,10 +2,11 @@
 // Receives already-serialized events from EventsContent and renders them.
 // No client-side state needed — event listing is a static layout.
 
-import Link           from "next/link"
-import { routes }     from "@/lib/routes"
-import type { PublicEvent } from "./EventsContent"
-import styles         from "./eventsPage.module.css"
+import Link                  from "next/link"
+import { routes }            from "@/lib/routes"
+import type { PublicEvent }  from "./EventsContent"
+import { EventImageViewer }  from "./EventImageViewer"
+import styles                from "./eventsPage.module.css"
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
 
@@ -60,15 +61,13 @@ function EventCard({ event }: { event: PublicEvent }) {
   return (
     <article className={styles.card}>
 
-      {/* Cover image */}
+      {/* Cover image — clickable when a URL is available */}
       <div className={styles.cardCover}>
         {event.coverImageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <EventImageViewer
             src={event.coverImageUrl}
             alt={`Immagine di copertina per ${event.title}`}
-            className={styles.cardCoverImg}
-            loading="lazy"
+            imgClassName={styles.cardCoverImg}
           />
         ) : (
           <div className={styles.cardCoverPlaceholder}>

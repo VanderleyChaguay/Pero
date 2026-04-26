@@ -168,6 +168,13 @@
   background:  var(--color-background-alt);
 }
 
+/* EventImageViewer trigger button — must fill the cover area so the
+   aspect-ratio box remains intact and the img hover scale still applies. */
+.cardCover > button {
+  position: absolute;
+  inset:    0;
+}
+
 .cardCoverImg {
   width:      100%;
   height:     100%;

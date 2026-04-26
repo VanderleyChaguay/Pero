@@ -1,0 +1,105 @@
+/* ══════════════════════════════════════════════════════════
+   EventImageViewer.module.css
+   Styles for the clickable image trigger and fullscreen modal.
+   Uses pero theme CSS variables where possible; fixed overlay
+   values use raw rgba since the overlay renders over the theme.
+══════════════════════════════════════════════════════════ */
+
+/* ── Trigger button — fills the .cardCover container ─────── */
+
+.trigger {
+  display:     block;
+  width:       100%;
+  height:      100%;
+  padding:     0;
+  background:  none;
+  border:      none;
+  cursor:      zoom-in;
+  line-height: 0; /* removes phantom inline gap below img */
+}
+
+/* Zoom-in hint on hover — mirrors the zoom-in cursor */
+.trigger::after {
+  content:         '⊕';
+  position:        absolute;
+  bottom:          0.6rem;
+  right:           0.7rem;
+  font-size:       1rem;
+  color:           rgba(255, 255, 255, 0.75);
+  text-shadow:     0 1px 3px rgba(0, 0, 0, 0.5);
+  opacity:         0;
+  transition:      opacity 0.25s ease;
+  pointer-events:  none;
+  /* trigger is not positioned, so keep hint inside positioned .cardCover */
+}
+.trigger:hover::after {
+  opacity: 1;
+}
+
+/* ── Fullscreen overlay ────────────────────────────────────── */
+
+.overlay {
+  position:        fixed;
+  inset:           0;
+  z-index:         1000;
+  background:      rgba(6, 4, 2, 0.92);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  cursor:          zoom-out;
+  animation:       overlayIn 0.18s ease;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Full-size image ──────────────────────────────────────── */
+
+.fullImg {
+  max-width:     90vw;
+  max-height:    90vh;
+  object-fit:    contain;
+  cursor:        default;
+  border-radius: 2px;
+  box-shadow:    0 24px 80px rgba(0, 0, 0, 0.65);
+  animation:     imgIn 0.22s ease;
+  /* prevent clicks on the image from closing the overlay */
+}
+
+@keyframes imgIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* ── Close button ─────────────────────────────────────────── */
+
+.closeBtn {
+  position:        absolute;
+  top:             1.25rem;
+  right:           1.25rem;
+  width:           2.25rem;
+  height:          2.25rem;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  background:      rgba(255, 255, 255, 0.1);
+  border:          1px solid rgba(255, 255, 255, 0.2);
+  border-radius:   50%;
+  color:           rgba(255, 255, 255, 0.8);
+  font-size:       1.4rem;
+  line-height:     1;
+  cursor:          pointer;
+  transition:      background 0.18s, color 0.18s, border-color 0.18s;
+  z-index:         1001;
+}
+.closeBtn:hover {
+  background:    rgba(255, 255, 255, 0.2);
+  border-color:  rgba(255, 255, 255, 0.4);
+  color:         #fff;
+}
+.closeBtn:focus-visible {
+  outline:        2px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 3px;
+}
