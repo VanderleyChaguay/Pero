@@ -58,3 +58,5 @@ Agregue connection en homeShell para hacerlo un componente dinamico.
 cree la seccion de menuview, elimine los enum del menu model porque creaba incongruencia en el map.menu , todo lo que tenia que ser cambiado fue cambiado.
 Cambios en AdminAuth y rpoxy para lo optimizacion y velocidad de respuesta , cambio en la llamada de la session actual ahora no usa getcurrentUser -> getClaims , no duplica la llamada de la sesion actual.
 Creado la seccion de gestion de eventos en la dashboard. con optimizador y compresor de imagenes de imagenes , !!!!!!!!!!!error en la carga de imagenes no me deja cargar las imagenes.
+Error en la carga de imagenes solucionado , agregado un sistema completo de gestion de archivos media que comprime y optimiza la imagen , separado en componente.
+Creado la seccion de eventView para cada negozio.

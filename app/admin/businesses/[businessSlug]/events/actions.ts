@@ -9,6 +9,25 @@ import { requireBusinessAccess } from "@/lib/admin/adminAuth"
 import { revalidatePath }        from "next/cache"
 import { redirect }              from "next/navigation"
 import { routes }                from "@/lib/routes"
+import { createClient }          from "@/lib/supabase/server"
+import { extractStoragePath }    from "@/lib/media/paths"
+
+const COVER_BUCKET = "event-covers"
+
+// Delete a storage file by its public URL. Non-fatal — a failed cleanup is
+// logged but does not abort the user's action.
+async function deleteCoverByUrl(publicUrl: string | null): Promise<void> {
+  if (!publicUrl) return
+  const path = extractStoragePath(publicUrl, COVER_BUCKET)
+  if (!path) return
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.storage.from(COVER_BUCKET).remove([path])
+    if (error) console.error("[actions] cover cleanup failed:", path, error)
+  } catch (err) {
+    console.error("[actions] cover cleanup unexpected error:", path, err)
+  }
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -81,7 +100,7 @@ export async function updateEvent(
 
   const existing = await prisma.event.findFirst({
     where:  { id: eventId, businessId: business.id },
-    select: { id: true },
+    select: { id: true, coverImageUrl: true },
   })
   if (!existing) return
 
@@ -99,6 +118,12 @@ export async function updateEvent(
       status:        data.status,
     },
   })
+
+  // Delete old storage file if the cover was replaced or removed.
+  // Run after the DB write so the record is already consistent if cleanup fails.
+  if (existing.coverImageUrl !== data.coverImageUrl) {
+    await deleteCoverByUrl(existing.coverImageUrl)
+  }
 
   revalidateEvents(businessSlug)
 }
@@ -133,7 +158,7 @@ export async function deleteEvent(businessSlug: string, eventId: string) {
 
   const event = await prisma.event.findFirst({
     where:  { id: eventId, businessId: business.id },
-    select: { id: true },
+    select: { id: true, coverImageUrl: true },
   })
   if (!event) return
 
@@ -141,6 +166,9 @@ export async function deleteEvent(businessSlug: string, eventId: string) {
     await tx.eventPhoto.deleteMany({ where: { eventId } })
     await tx.event.delete({ where: { id: eventId } })
   })
+
+  // Clean up cover image from storage after the DB record is gone.
+  await deleteCoverByUrl(event.coverImageUrl)
 
   revalidateEvents(businessSlug)
   redirect(routes.admin.business.events(businessSlug))

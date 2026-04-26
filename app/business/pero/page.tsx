@@ -1,48 +1,41 @@
+// app/business/pero/page.tsx
+// Homepage for Bar Però.
+//
+// PeroEventiPreview is async (fetches DB at request time) — wrapped in
+// Suspense so it streams independently and doesn't block the static shell.
+// PeroFooter uses "use cache" internally — same Suspense pattern as
+// menu/page.tsx to keep it out of the static prerender shell.
 
-import Image from "next/image"
-import Link from "next/link"
-import { PeroNavbar } from "@/components/business/pero/navbar/navbar"
-import { PeroHero } from "@/components/business/pero/hero/hero"
-import { PeroStoria } from "@/components/business/pero/storia/storia"
-import { PeroMenuPreview } from "@/components/business/pero/menuPreview/menuPreview"
-import { PeroEventiPreview } from "@/components/business/pero/events/events"
-import { PeroContact } from "@/components/business/pero/contact/contact"
-import { PeroFooter } from "@/components/business/pero/footer/footer"
-// Evaluated once at build time — not inside the component
-// Però Bar — Homepage
-// Savona, Via Baglietto 44r
-// Elegant minimalist — wine red + bone white identity
-// Sections: Navbar, Hero, About, Menu Preview, Events, Contact, Footer
-// ─────────────────────────────────────────────────────────────
-
+import { Suspense }           from "react"
+import { PeroNavbar }         from "@/components/business/pero/navbar/navbar"
+import { PeroHero }           from "@/components/business/pero/hero/hero"
+import { PeroStoria }         from "@/components/business/pero/storia/storia"
+import { PeroMenuPreview }    from "@/components/business/pero/menuPreview/menuPreview"
+import { PeroEventiPreview }  from "@/components/business/pero/events/events"
+import { PeroContact }        from "@/components/business/pero/contact/contact"
+import { PeroFooter }         from "@/components/business/pero/footer/footer"
 
 export default function PeròPage() {
-
-
   return (
-    <>
-      
-      <div className="pero-page">
-        
-        {/* ══ NAVBAR ══════════════════════════════════════════ */}
+    <div className="pero-page">
 
-        <PeroNavbar />
-        {/* ══ HERO ════════════════════════════════════════════ */}
+      <PeroNavbar />
+      <PeroHero />
+      <PeroStoria />
+      <PeroMenuPreview />
 
-        <PeroHero/>
+      {/* Events preview fetches from DB — stream it independently */}
+      <Suspense fallback={null}>
+        <PeroEventiPreview />
+      </Suspense>
 
-        {/* ══ STORIA ══════════════════════════════════════════ */}
-        <PeroStoria/>
-        {/* ══ MENU PREVIEW ════════════════════════════════════ */}
+      <PeroContact />
 
-        <PeroMenuPreview/>
-        {/* ══ EVENTS ══════════════════════════════════════════ */}
-        <PeroEventiPreview/>
-        {/* ══ CONTACT ═════════════════════════════════════════ */}
-        <PeroContact/>
-        {/* ══ FOOTER ══════════════════════════════════════════ */}
-        <PeroFooter/>
-      </div>
-    </>
+      {/* Footer uses "use cache" with new Date() — must be outside static shell */}
+      <Suspense fallback={null}>
+        <PeroFooter />
+      </Suspense>
+
+    </div>
   )
 }

@@ -1,0 +1,146 @@
+/* ══════════════════════════════════════════════════════════
+   MediaUpload.module.css — Generic media upload component
+   Hybrid: Tailwind layout utilities in JSX, CSS Modules for
+   theme tokens and transitions.
+══════════════════════════════════════════════════════════ */
+
+.root {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-2);
+}
+
+/* Hidden file input — triggered programmatically */
+.fileInput {
+  display: none;
+}
+
+/* ── Drop zone (no image selected yet) ── */
+.dropzone {
+  min-height:    120px;
+  border:        2px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background:    var(--color-bg-hover);
+  gap:           var(--space-2);
+  transition:    border-color var(--transition-fast), background var(--transition-fast);
+}
+.dropzone:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background:   var(--color-primary-subtle);
+}
+
+.dropzoneIcon {
+  font-size: 1.5rem;
+  color:     var(--color-text-subtle);
+}
+
+.dropzoneLabel {
+  font-size:   var(--text-sm);
+  font-weight: 500;
+  color:       var(--color-text-muted);
+}
+
+.dropzoneHint {
+  font-size: var(--text-xs);
+  color:     var(--color-text-subtle);
+}
+
+/* ── Preview state ── */
+.previewWrapper {
+  position:      relative;
+  border-radius: var(--radius-md);
+  overflow:      hidden;
+  border:        1px solid var(--color-border);
+}
+
+.preview {
+  display:    block;
+  width:      100%;
+  max-height: 240px;
+  object-fit: cover;
+}
+
+/* Uploading / processing overlay */
+.uploadingOverlay {
+  position:   absolute;
+  inset:      0;
+  background: rgba(15, 10, 8, 0.55);
+}
+
+.uploadingLabel {
+  font-size:   var(--text-sm);
+  font-weight: 500;
+  color:       #fff;
+}
+
+/* Action buttons rendered over the preview image */
+.previewActions {
+  position: absolute;
+  bottom:   var(--space-3);
+  right:    var(--space-3);
+  gap:      var(--space-2);
+}
+
+.btnChange {
+  font-size:     var(--text-xs);
+  font-weight:   500;
+  color:         #fff;
+  background:    rgba(0, 0, 0, 0.55);
+  border:        1px solid rgba(255, 255, 255, 0.25);
+  padding:       0.3rem 0.7rem;
+  border-radius: var(--radius-sm);
+  transition:    background var(--transition-fast);
+}
+.btnChange:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.btnRemove {
+  font-size:     var(--text-xs);
+  font-weight:   500;
+  color:         var(--color-danger);
+  background:    rgba(0, 0, 0, 0.55);
+  border:        1px solid rgba(192, 57, 43, 0.4);
+  padding:       0.3rem 0.7rem;
+  border-radius: var(--radius-sm);
+  transition:    background var(--transition-fast);
+}
+.btnRemove:hover {
+  background: var(--color-danger-bg);
+}
+
+/* ── Compression stats bar ── */
+.stats {
+  margin:      0;
+  font-size:   var(--text-xs);
+  color:       var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* Format badge: AVIF / WebP / JPEG */
+.formatBadge {
+  display:       inline-block;
+  font-size:     0.65rem;
+  font-weight:   600;
+  letter-spacing: 0.04em;
+  color:         var(--color-primary);
+  background:    var(--color-primary-subtle);
+  border:        1px solid var(--color-primary-border, var(--color-primary));
+  padding:       0.1rem 0.35rem;
+  border-radius: var(--radius-xs, 3px);
+  vertical-align: middle;
+  margin-right:  0.25rem;
+  opacity:       0.85;
+}
+
+.statsSaving {
+  color:       var(--color-success);
+  font-weight: 500;
+}
+
+/* ── Error message ── */
+.error {
+  margin:    0;
+  font-size: var(--text-xs);
+  color:     var(--color-danger);
+}

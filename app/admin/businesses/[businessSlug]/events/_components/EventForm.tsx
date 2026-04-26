@@ -7,7 +7,7 @@
 
 import { useState, useTransition }   from "react"
 import { createEvent, updateEvent }  from "../actions"
-import { ImageUpload }               from "./ImageUpload"
+import { MediaUpload }               from "@/components/ui/MediaUpload"
 import type { EventDetail, EventStatus } from "../_types"
 import styles                        from "./EventForm.module.css"
 
@@ -141,10 +141,13 @@ export function EventForm({ businessSlug, event }: Props) {
           Immagine di copertina
           <span className={styles.optional}> (facoltativa)</span>
         </label>
-        <ImageUpload
+        <MediaUpload
           name="coverImageUrl"
+          bucket="event-covers"
+          pathPrefix={`${businessSlug}/event-cover`}
+          profile="cover"
           initialUrl={event?.coverImageUrl}
-          businessSlug={businessSlug}
+          label="Aggiungi immagine di copertina"
         />
       </div>
 
